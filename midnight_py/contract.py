@@ -103,34 +103,49 @@ class ContractClient:
     ) -> Contract:
         """
         Deploy a .compact contract to the network.
+        
+        This requires:
+        1. Compact compiler installed (npm install -g @midnight-ntwrk/compact-compiler)
+        2. Contract compiled to managed/ directory
+        3. Proof server running (docker run -p 6300:6300 midnightntwrk/proof-server)
+        4. Wallet with NIGHT + DUST tokens
+        
         Returns a Contract instance at the deployed address.
         """
+        import subprocess
+        import json
+        from pathlib import Path
+        
         from .codegen import parse_compact_circuits
-        import httpx
+
+        # Check if contract is compiled
+        contract_name = Path(contract_path).stem
+        managed_dir = Path("contracts/managed") / contract_name
+        contract_js = managed_dir / "contract" / "index.js"
+        
+        if not contract_js.exists():
+            raise ContractDeployError(
+                f"Contract not compiled!\n\n"
+                f"Run: compact compile {contract_path} {managed_dir}\n\n"
+                f"This requires:\n"
+                f"  1. Install Compact compiler: npm install -g @midnight-ntwrk/compact-compiler\n"
+                f"  2. Compile your contract: compact compile {contract_path} {managed_dir}\n"
+                f"  3. Verify {contract_js} exists\n"
+            )
 
         circuits = parse_compact_circuits(contract_path)
 
-        try:
-            http = httpx.Client()
-            response = http.post(
-                f"{self._wallet.url}/contracts/deploy",
-                json={
-                    "contractPath": contract_path,
-                    "constructorArgs": constructor_args or {},
-                },
-            )
-            response.raise_for_status()
-        except Exception as e:
-            raise ContractDeployError(f"Deployment failed: {e}")
-
-        address = response.json()["contractAddress"]
-        return Contract(
-            address=address,
-            circuit_ids=circuits,
-            wallet=self._wallet,
-            prover=self._prover,
-            indexer=self._indexer,
-            private_key=private_key,
+        # For now, we need to use the TypeScript SDK for deployment
+        # because it requires complex ZK proof generation and wallet integration
+        raise ContractDeployError(
+            f"Contract deployment requires the full Midnight TypeScript SDK.\n\n"
+            f"Your contract is compiled at: {managed_dir}\n\n"
+            f"To deploy, use the TypeScript SDK:\n"
+            f"  1. Install dependencies: npm install @midnight-ntwrk/midnight-js-contracts\n"
+            f"  2. Create deploy.ts script (see Midnight docs)\n"
+            f"  3. Run: tsx deploy.ts\n\n"
+            f"midnight-py can interact with deployed contracts using:\n"
+            f"  contract = client.get_contract(address, {circuits})\n"
         )
 
     def load(self, address: str, circuit_ids: list[str]) -> Contract:

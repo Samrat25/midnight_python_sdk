@@ -50,6 +50,12 @@ Thumbs.db
 mnemonic.txt
 .test_wallet.txt
 .wallet_info.json
+.wallet_real.json
+accounts.json
 .env
 *.key
 .service_pids.txt
+
+# Node.js
+node_modules/
+package-lock.json
