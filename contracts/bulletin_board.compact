@@ -1,0 +1,19 @@
+pragma language_version >= 1.0.0;
+import CompactStandardLibrary;
+
+// Simple bulletin board contract for posting messages
+ledger {
+  message_count: Counter;
+  latest_message: Bytes<256>;
+  poster: Address;
+}
+
+export circuit post(message: Bytes<256>): [] {
+  ledger.latest_message = message;
+  ledger.poster = msg.sender;
+  increment_counter(ledger.message_count);
+}
+
+export circuit get_count(): [Counter] {
+  return ledger.message_count;
+}
