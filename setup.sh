@@ -1,9 +1,9 @@
 #!/bin/bash
-# Quick setup script for midnight-py
+# Quick setup script for midnight-sdk
 
 set -e
 
-echo "🌙 midnight-py Setup"
+echo "🌙 midnight-sdk Setup"
 echo "===================="
 echo ""
 
@@ -30,14 +30,14 @@ fi
 
 # Install package
 echo ""
-echo "Installing midnight-py..."
+echo "Installing midnight-sdk..."
 pip install -e ".[dev]"
 echo "✓ Package installed"
 
 # Check installation
 echo ""
 echo "Verifying installation..."
-python3 -c "import midnight_py; print(f'✓ midnight-py v{midnight_py.__version__}')"
+python3 -c "import midnight_sdk; print(f'✓ midnight-sdk v{midnight_sdk.__version__}')"
 
 # Run tests
 echo ""
@@ -54,7 +54,7 @@ if command -v docker &> /dev/null && docker info &> /dev/null; then
     
     echo ""
     echo "Checking service status..."
-    midnight-py status || echo "⚠️  Services not ready yet. Run 'docker-compose up -d' and wait a minute."
+    midnight-sdk status || echo "⚠️  Services not ready yet. Run 'docker-compose up -d' and wait a minute."
 fi
 
 echo ""
@@ -62,7 +62,7 @@ echo "✅ Setup complete!"
 echo ""
 echo "Next steps:"
 echo "  1. Start services: docker-compose up -d"
-echo "  2. Check status: midnight-py status"
+echo "  2. Check status: midnight-sdk status"
 echo "  3. Run example: python examples/bulletin_board.py"
 echo "  4. Read docs: cat QUICKSTART.md"
 echo ""

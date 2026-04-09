@@ -158,7 +158,7 @@ result = client.wallet.submit_transaction(signed_tx)
 
 ```python
 # Get explorer URL
-from midnight_py.wallet import get_explorer_url
+from midnight_sdk.wallet import get_explorer_url
 explorer_url = get_explorer_url(result.tx_hash, "undeployed")
 
 # View in browser:

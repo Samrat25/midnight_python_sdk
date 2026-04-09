@@ -4,14 +4,14 @@ install:
 	pip install -e ".[dev]"
 
 test:
-	pytest tests/ -v --cov=midnight_py
+	pytest tests/ -v --cov=midnight_sdk
 
 lint:
-	ruff check midnight_py/ tests/
-	mypy midnight_py/
+	ruff check midnight_sdk/ tests/
+	mypy midnight_sdk/
 
 format:
-	ruff format midnight_py/ tests/ examples/
+	ruff format midnight_sdk/ tests/ examples/
 
 clean:
 	rm -rf build/ dist/ *.egg-info
@@ -22,7 +22,7 @@ docker-up:
 	docker-compose up -d
 	@echo "Waiting for services to start..."
 	@sleep 5
-	midnight-py status
+	midnight-sdk status
 
 docker-down:
 	docker-compose down

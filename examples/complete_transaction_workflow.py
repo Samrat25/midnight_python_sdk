@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Complete Transaction Workflow Demo
 Demonstrates the full lifecycle: submit -> pending -> confirmed
@@ -7,7 +7,7 @@ Demonstrates the full lifecycle: submit -> pending -> confirmed
 import time
 import httpx
 from pathlib import Path
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 
 
 def check_transaction_status(tx_hash: str) -> dict:

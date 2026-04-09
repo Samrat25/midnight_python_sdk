@@ -1,5 +1,5 @@
-from midnight_py.contract import Contract
-from midnight_py.exceptions import ContractCallError
+from midnight_sdk.contract import Contract
+from midnight_sdk.exceptions import ContractCallError
 import pytest
 
 

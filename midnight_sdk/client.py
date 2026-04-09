@@ -1,8 +1,8 @@
 """
-MidnightClient — the main entry point for the midnight-py SDK.
+MidnightClient — the main entry point for the midnight-sdk SDK.
 
 Usage:
-    from midnight_py import MidnightClient
+    from midnight_sdk import MidnightClient
     
     client = MidnightClient(network="preprod")
     print(client.status())

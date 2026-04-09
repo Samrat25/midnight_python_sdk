@@ -5,9 +5,9 @@ Run this to confirm all changes are working correctly.
 """
 
 import sys
-from midnight_py.client import MidnightClient
-from midnight_py.indexer import IndexerClient
-from midnight_py.models import Balance
+from midnight_sdk.client import MidnightClient
+from midnight_sdk.indexer import IndexerClient
+from midnight_sdk.models import Balance
 
 def test_indexer_url():
     """Verify indexer URL is v4."""
@@ -70,7 +70,7 @@ def test_cli_import():
     """Verify CLI module imports without errors."""
     print("Testing CLI module import...")
     try:
-        from midnight_py import cli
+        from midnight_sdk import cli
         print(f"  ✓ CLI module imported successfully")
         
         # Check for main commands
@@ -87,7 +87,7 @@ def test_cli_import():
 def test_network_configs():
     """Verify all network configs use correct URLs."""
     print("Testing network configurations...")
-    from midnight_py.client import NETWORKS
+    from midnight_sdk.client import NETWORKS
     
     all_correct = True
     for network_name, config in NETWORKS.items():
@@ -152,9 +152,9 @@ def main():
         print()
         print("Next steps:")
         print("  1. Start services: docker-compose up -d")
-        print("  2. Test CLI: midnight-py status")
-        print("  3. Check balance: midnight-py balance <your_address>")
-        print("  4. View block: midnight-py block")
+        print("  2. Test CLI: midnight-sdk status")
+        print("  3. Check balance: midnight-sdk balance <your_address>")
+        print("  4. View block: midnight-sdk block")
         return 0
     else:
         print("⚠️  Some tests failed. Review the output above.")

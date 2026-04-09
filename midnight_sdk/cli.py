@@ -1,20 +1,20 @@
 """
-midnight-py CLI — clean workflow for Midnight blockchain.
+midnight CLI — clean workflow for Midnight blockchain.
 
 Commands:
-  midnight-py status              — check all 3 services
-  midnight-py balance <address>   — get wallet balance
-  midnight-py block               — show latest block
-  midnight-py deploy <contract>   — deploy a .compact contract
-  midnight-py call <addr> <fn>    — call a circuit
-  midnight-py state <addr>        — read contract state
-  midnight-py tx get <hash>       — look up a transaction by hash
+  midnight status              — check all 3 services
+  midnight balance <address>   — get wallet balance
+  midnight block               — show latest block
+  midnight deploy <contract>   — deploy a .compact contract
+  midnight call <addr> <fn>    — call a circuit
+  midnight state <addr>        — read contract state
+  midnight tx get <hash>       — look up a transaction by hash
 
 Usage examples:
-  midnight-py status
-  midnight-py balance mn_addr_undeployed1zaa268rc7sjz0cts...
-  midnight-py block
-  midnight-py deploy contracts/bulletin_board.compact --wallet mn_addr... --key YOUR_KEY
+  midnight status
+  midnight balance mn_addr_undeployed1zaa268rc7sjz0cts...
+  midnight block
+  midnight deploy contracts/bulletin_board.compact --wallet mn_addr... --key YOUR_KEY
 """
 
 import typer
@@ -24,7 +24,7 @@ from rich.table import Table
 from rich import print as rprint
 from .client import MidnightClient
 
-app     = typer.Typer(name="midnight-py", help="Python CLI for the Midnight blockchain", no_args_is_help=True)
+app     = typer.Typer(name="midnight", help="Python CLI for the Midnight blockchain", no_args_is_help=True)
 tx_app  = typer.Typer(help="Transaction commands")
 app.add_typer(tx_app, name="tx")
 console = Console()
@@ -72,9 +72,9 @@ def networks():
     console.print(table)
     
     rprint("\n[bold]Usage:[/bold]")
-    rprint("  midnight-py balance <address>                    # Auto-detect network")
-    rprint("  midnight-py balance <address> --network testnet  # Use specific network")
-    rprint("  midnight-py status --network preprod             # Check network status")
+    rprint("  midnight balance <address>                    # Auto-detect network")
+    rprint("  midnight balance <address> --network testnet  # Use specific network")
+    rprint("  midnight status --network preprod             # Check network status")
     rprint()
 
 
@@ -157,9 +157,9 @@ def lace(
     Use this to get your REAL balance including shielded NIGHT tokens.
     
     Examples:
-      midnight-py lace info --network preprod
-      midnight-py lace balance --network preprod
-      midnight-py lace addresses --network preprod
+      midnight lace info --network preprod
+      midnight lace balance --network preprod
+      midnight lace addresses --network preprod
     """
     from .lace_connector import LaceConnector
     
@@ -190,38 +190,47 @@ def lace(
         rprint("     [dim]Lace Settings → Network → Preprod[/dim]\n")
         rprint("  4. View your balance in Lace extension")
         rprint("  5. Copy your address and use with CLI:")
-        rprint("     [dim]midnight-py balance <your-address> --network preprod[/dim]\n")
+        rprint("     [dim]midnight balance <your-address> --network preprod[/dim]\n")
     
     elif action == "balance":
         rprint("─── Getting Balance from Lace Wallet ────────────────────────────\n")
+        rprint("[dim]  Syncing with Midnight network... (up to 60 seconds)[/dim]\n")
         try:
             balance = connector.get_balance()
             rprint(f"  NIGHT (shielded):   [green]{balance.night:,}[/green]")
             rprint(f"  DUST (for fees):    [green]{balance.dust:,}[/green]\n")
-            rprint("  ✅ Balance retrieved from Lace wallet\n")
         except Exception as e:
-            rprint(f"[yellow]ℹ️  {e}[/yellow]\n")
-            rprint("  To view your balance:")
-            rprint("    1. Open Lace wallet extension in your browser")
-            rprint("    2. Make sure you're on the correct network")
-            rprint("    3. Your balance is displayed in the extension\n")
-            rprint("  Or use the wallet SDK:")
-            rprint(f"    [dim]$env:MNEMONIC = Get-Content prepod.mnemonic.txt[/dim]")
-            rprint(f"    [dim]midnight-py balance <address> --network {network} --use-wallet-sdk[/dim]\n")
+            rprint(f"[red]  Failed: {e}[/red]\n")
+            rprint("  Make sure your mnemonic is in [dim]mnemonic.txt[/dim] or [dim]config/prepod.mnemonic.txt[/dim]\n")
     
     elif action == "addresses":
         rprint("─── Getting Addresses from Lace Wallet ──────────────────────────\n")
         try:
             addresses = connector.get_addresses()
-            rprint(f"  Shielded (private):   [cyan]{addresses.get('shieldedAddress', 'N/A')}[/cyan]")
-            rprint(f"  Unshielded (public):  [cyan]{addresses.get('unshieldedAddress', 'N/A')}[/cyan]")
-            rprint(f"  DUST (fees):          [cyan]{addresses.get('dustAddress', 'N/A')}[/cyan]\n")
-        except Exception as e:
-            rprint(f"[yellow]ℹ️  {e}[/yellow]\n")
-            rprint("  To view your addresses:")
-            rprint("    1. Open Lace wallet extension")
-            rprint("    2. Click on your wallet name")
-            rprint("    3. Your addresses are displayed\n")
+            shielded = addresses.get('shieldedAddress', '')
+            unshielded = addresses.get('unshieldedAddress', '')
+            dust = addresses.get('dustAddress', '')
+
+            if shielded or unshielded:
+                rprint(f"  Shielded (private):   [cyan]{shielded or 'N/A'}[/cyan]")
+                rprint(f"  Unshielded (public):  [cyan]{unshielded or 'N/A'}[/cyan]")
+                rprint(f"  DUST (fees):          [cyan]{dust or 'N/A'}[/cyan]\n")
+            else:
+                rprint("[yellow]  Lace wallet is a browser extension — addresses are not accessible from the CLI.[/yellow]\n")
+                rprint("  To get your addresses:")
+                rprint("    1. Open the Lace extension in your browser")
+                rprint("    2. Your address is shown on the main screen")
+                rprint("    3. Copy it and use: [dim]midnight balance <address>[/dim]\n")
+                rprint("  Or derive it from your mnemonic:")
+                rprint("    [dim]node scripts/wallet/get_wallet_address.mjs[/dim]\n")
+        except Exception:
+            rprint("[yellow]  Lace wallet is a browser extension — addresses are not accessible from the CLI.[/yellow]\n")
+            rprint("  To get your addresses:")
+            rprint("    1. Open the Lace extension in your browser")
+            rprint("    2. Your address is shown on the main screen")
+            rprint("    3. Copy it and use: [dim]midnight balance <address>[/dim]\n")
+            rprint("  Or derive it from your mnemonic:")
+            rprint("    [dim]node scripts/wallet/get_wallet_address.mjs[/dim]\n")
     
     elif action == "config":
         rprint("─── Lace Wallet Configuration ───────────────────────────────────\n")
@@ -258,7 +267,7 @@ def wallet(
     - Lace wallet instructions
     
     Example:
-      midnight-py wallet mn_addr_preprod1qr0n4n8lhczmnnjv0ryzvcul3dteals0ejjgs7mmpqueh4u9clqssyv3kd --network preprod
+      midnight wallet mn_addr_preprod1qr0n4n8lhczmnnjv0ryzvcul3dteals0ejjgs7mmpqueh4u9clqssyv3kd --network preprod
     """
     from .client import MidnightClient
     
@@ -313,8 +322,8 @@ def wallet(
     rprint(f"    [cyan]{explorer_url}[/cyan]\n")
     
     rprint("  [bold]Option 3: Lace CLI Integration[/bold]")
-    rprint(f"    midnight-py lace info --network {network}")
-    rprint(f"    midnight-py lace config --network {network}\n")
+    rprint(f"    midnight lace info --network {network}")
+    rprint(f"    midnight lace config --network {network}\n")
     
     if is_preprod_wallet:
         rprint("─── Ready to Deploy ─────────────────────────────────────────────\n")
@@ -379,7 +388,7 @@ def balance(
             rprint('  [dim]Bash:[/dim]       export MNEMONIC=$(cat prepod.mnemonic.txt)')
             rprint("\nOr create prepod.mnemonic.txt with your 24 words")
             rprint("\nThen run:")
-            rprint(f"  midnight-py balance {address} --use-wallet-sdk")
+            rprint(f"  midnight balance {address} --use-wallet-sdk")
             rprint()
             raise typer.Exit(1)
         
@@ -391,7 +400,7 @@ def balance(
         rprint(f"\n[dim]Syncing with indexer... (this takes 10-30 seconds)[/dim]\n")
         
         # Call get_real_balance.mjs
-        script = Path(__file__).parent.parent / "get_real_balance.mjs"
+        script = Path(__file__).parent.parent / "scripts" / "utilities" / "get_real_balance.mjs"
         if not script.exists():
             rprint(f"[red]❌ get_real_balance.mjs not found[/red]")
             rprint(f"[dim]Expected at: {script}[/dim]")
@@ -402,6 +411,7 @@ def balance(
                 ["node", str(script)],
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
                 timeout=60,
                 env={**os.environ, "MNEMONIC": mnemonic, "NETWORK": target_network},
             )
@@ -481,10 +491,10 @@ def balance(
             rprint("[bold]View Your Balance:[/bold]")
             rprint("  1. Lace Wallet: [cyan]https://www.lace.io/[/cyan]")
             rprint("  2. Explorer: [cyan]https://explorer.preprod.midnight.network/address/" + address + "[/cyan]")
-            rprint("  3. CLI: [dim]midnight-py wallet " + address + " --network preprod[/dim]\n")
+            rprint("  3. CLI: [dim]midnight wallet " + address + " --network preprod[/dim]\n")
         else:
             rprint(f"[dim]💡 To see real NIGHT balance, use:[/dim]")
-            rprint(f"[dim]   midnight-py balance {address} --network {network} --use-wallet-sdk[/dim]\n")
+            rprint(f"[dim]   midnight balance {address} --network {network} --use-wallet-sdk[/dim]\n")
         
         block = client.indexer.get_latest_block()
         if block:
@@ -510,7 +520,7 @@ def balance(
         rprint("  2. Wallet is not funded on any network")
         rprint("  3. Network services are offline")
         rprint("\n[dim]Try specifying a network manually:[/dim]")
-        rprint("  midnight-py balance <address> --network testnet --no-auto")
+        rprint("  midnight balance <address> --network testnet --no-auto")
         return
     
     # Show results
@@ -531,7 +541,7 @@ def balance(
     rprint(f"[dim]The indexer cannot reveal shielded amounts without your viewing key.[/dim]")
     
     rprint(f"\n[dim]💡 To see real NIGHT balance, use:[/dim]")
-    rprint(f"[dim]   midnight-py balance {address} --network {detected_network} --use-wallet-sdk[/dim]")
+    rprint(f"[dim]   midnight balance {address} --network {detected_network} --use-wallet-sdk[/dim]")
     
     # Get latest block
     client = MidnightClient(network=detected_network)
@@ -706,3 +716,6 @@ def tx_list(
 
 def main():
     app()
+
+
+

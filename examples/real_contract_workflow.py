@@ -1,5 +1,5 @@
 """
-Real Contract Workflow — How to Actually Use midnight-py
+Real Contract Workflow — How to Actually Use midnight-sdk
 =========================================================
 
 This example shows the REAL workflow for working with Midnight contracts:
@@ -7,12 +7,12 @@ This example shows the REAL workflow for working with Midnight contracts:
 1. Write your .compact contract
 2. Compile it using the Compact compiler
 3. Deploy it using TypeScript SDK (required for ZK proofs)
-4. Interact with it using midnight-py (Python)
+4. Interact with it using midnight-sdk (Python)
 
 This is the honest, real-world workflow.
 """
 
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 from rich.console import Console
 from rich import print as rprint
 
@@ -27,7 +27,7 @@ def main():
 Midnight contracts require:
 1. [cyan]Compact compiler[/cyan] - Compiles .compact → JavaScript + ZK circuits
 2. [cyan]TypeScript SDK[/cyan] - Deploys contracts (generates ZK proofs)
-3. [cyan]Python SDK (midnight-py)[/cyan] - Interacts with deployed contracts
+3. [cyan]Python SDK (midnight-sdk)[/cyan] - Interacts with deployed contracts
 
 [bold yellow]Why Python Can't Deploy Contracts (Yet):[/bold yellow]
 
@@ -44,7 +44,7 @@ Reimplementing this in pure Python would require:
 • Implementing Midnight's cryptography
 • Maintaining compatibility with circuit formats
 
-[bold green]What midnight-py DOES Provide:[/bold green]
+[bold green]What midnight-sdk DOES Provide:[/bold green]
 
 1. [cyan]Auto-Codegen[/cyan] - Generate Python classes from .compact files
 2. [cyan]Contract Interaction[/cyan] - Call circuits on deployed contracts
@@ -113,8 +113,8 @@ Step 4: Interact with Contract (Python SDK - midnight-py)
 File: interact.py
 
 ```python
-from midnight_py import MidnightClient
-from midnight_py.codegen import compact_to_python
+from midnight_sdk import MidnightClient
+from midnight_sdk.codegen import compact_to_python
 
 # Connect to Midnight
 client = MidnightClient(network="preprod")
@@ -213,7 +213,7 @@ Use midnight-py for:
 • Midnight Docs: https://docs.midnight.network
 • Compact Compiler: npm install -g @midnight-ntwrk/compact-compiler
 • TypeScript SDK: @midnight-ntwrk/midnight-js-contracts
-• midnight-py: github.com/Samrat25/midnight_python_sdk
+• midnight-sdk: github.com/Samrat25/midnight_python_sdk
 """)
 
     # Show real service status

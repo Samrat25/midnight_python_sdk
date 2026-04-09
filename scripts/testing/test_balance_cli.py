@@ -4,8 +4,8 @@ Test script to demonstrate the fixed balance CLI functionality.
 This shows how NIGHT tokens are shielded and cannot be read without a viewing key.
 """
 
-from midnight_py.client import MidnightClient
-from midnight_py.indexer import IndexerClient
+from midnight_sdk.client import MidnightClient
+from midnight_sdk.indexer import IndexerClient
 
 def test_balance_query():
     """Test the balance query functionality."""
@@ -52,11 +52,11 @@ def test_balance_query():
     print()
     
     print("CLI Commands:")
-    print("  midnight-py status              # Check all services")
-    print("  midnight-py block               # Show latest block")
-    print("  midnight-py balance <address>   # Check balance")
-    print("  midnight-py tx get <hash>       # Look up transaction")
-    print("  midnight-py tx list <address>   # List transactions")
+    print("  midnight-sdk status              # Check all services")
+    print("  midnight-sdk block               # Show latest block")
+    print("  midnight-sdk balance <address>   # Check balance")
+    print("  midnight-sdk tx get <hash>       # Look up transaction")
+    print("  midnight-sdk tx list <address>   # List transactions")
     print()
     
     print("=" * 70)

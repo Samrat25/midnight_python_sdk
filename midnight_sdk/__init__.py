@@ -1,4 +1,4 @@
-"""midnight-py: The first Python SDK for the Midnight blockchain."""
+"""midnight-sdk: The first Python SDK for the Midnight blockchain."""
 
 from .client import MidnightClient
 from .models import Balance, ZKProof, TransactionResult, ContractState

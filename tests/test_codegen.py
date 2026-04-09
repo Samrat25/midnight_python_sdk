@@ -1,5 +1,5 @@
-from midnight_py.codegen import compact_to_python, parse_compact_circuits
-from midnight_py.exceptions import CompactParseError
+from midnight_sdk.codegen import compact_to_python, parse_compact_circuits
+from midnight_sdk.exceptions import CompactParseError
 import pytest
 
 

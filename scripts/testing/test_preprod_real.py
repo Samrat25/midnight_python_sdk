@@ -6,7 +6,7 @@ Uses real wallet, real transactions, real explorer
 
 import sys
 from pathlib import Path
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 
 # REAL Preprod wallet
 PREPROD_WALLET = "mn_addr_preprod1qr0n4n8lhczmnnjv0ryzvcul3dteals0ejjgs7mmpqueh4u9clqssyv3kd"
@@ -263,7 +263,7 @@ def main():
     
     if passed == total:
         print("\n🎉 ALL TESTS PASSED ON REAL PREPROD! 🎉")
-        print("\nYour midnight-py CLI successfully:")
+        print("\nYour midnight-sdk CLI successfully:")
         print("  ✅ Connected to REAL Midnight preprod network")
         print("  ✅ Deployed contract with REAL signed transaction")
         print("  ✅ Called circuit with REAL signed transaction")

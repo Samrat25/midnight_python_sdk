@@ -19,6 +19,7 @@ import { createKeystore, InMemoryTransactionHistoryStorage, PublicKey, Unshielde
 import { setNetworkId } from "@midnight-ntwrk/midnight-js-network-id";
 import * as ledger from "@midnight-ntwrk/ledger-v8";
 import { mnemonicToSeedSync } from "bip39";
+import * as Rx from "rxjs";
 
 const MNEMONIC = process.env.MNEMONIC;
 const NETWORK = process.env.NETWORK || "preprod";
@@ -118,18 +119,24 @@ try {
   });
   
   await wallet.start(shieldedSecretKeys, dustSecretKey);
-  
-  // Wait for sync with timeout
-  const syncPromise = wallet.waitForSyncedState();
-  const timeoutPromise = new Promise((_, reject) => 
-    setTimeout(() => reject(new Error('Sync timeout after 45 seconds')), 45000)
-  );
-  
-  const state = await Promise.race([syncPromise, timeoutPromise]);
-  
+
+  // Wait for synced state, fall back to best available state after 60s
+  let state;
+  try {
+    state = await Rx.firstValueFrom(
+      wallet.state().pipe(
+        Rx.filter(s => s.isSynced),
+        Rx.timeout(60000),
+      )
+    );
+  } catch {
+    // Timeout — return whatever state we have
+    state = await Rx.firstValueFrom(wallet.state());
+  }
+
   const nightBalance = state.shielded.balances[ledger.shieldedToken().raw] ?? 0n;
   const unshieldedBalance = state.unshielded.balances[ledger.unshieldedToken().raw] ?? 0n;
-  const dustBalance = state.dust.walletBalance(new Date());
+  const dustBalance = state.dust.balance(new Date());
   
   // Output JSON for Python to parse
   console.log(JSON.stringify({

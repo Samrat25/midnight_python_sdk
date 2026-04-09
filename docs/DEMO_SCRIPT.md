@@ -12,9 +12,9 @@
 ### 1. Introduction (30 seconds)
 
 **Say:**
-> "Hi! I'm presenting midnight-py, the first Python SDK for the Midnight blockchain. 
+> "Hi! I'm presenting midnight-sdk, the first Python SDK for the Midnight blockchain. 
 > Midnight currently only has a TypeScript SDK, but Python has over 10 million developers 
-> and dominates ML, AI, and data science. midnight-py opens Midnight to the entire Python ecosystem."
+> and dominates ML, AI, and data science. midnight-sdk opens Midnight to the entire Python ecosystem."
 
 ### 2. Show Services Running (30 seconds)
 
@@ -35,7 +35,7 @@ python hackathon_demo.py
 ### 3. Wallet Generation (45 seconds)
 
 **Say:**
-> "midnight-py supports BIP39 mnemonic phrases for wallet generation. 
+> "midnight-sdk supports BIP39 mnemonic phrases for wallet generation. 
 > Here's my wallet being generated from a mnemonic - it creates a proper Midnight address 
 > that's compatible with all Midnight wallets. This wallet was funded with 50 billion NIGHT tokens 
 > from the master wallet."
@@ -48,9 +48,9 @@ python hackathon_demo.py
 ### 4. Auto-Codegen - THE KILLER FEATURE (90 seconds)
 
 **Say:**
-> "Now here's the killer feature that makes midnight-py unique - automatic code generation. 
+> "Now here's the killer feature that makes midnight-sdk unique - automatic code generation. 
 > Watch this: I have a Compact smart contract file called bulletin_board.compact. 
-> midnight-py automatically converts this into a Python class with type-safe methods."
+> midnight-sdk automatically converts this into a Python class with type-safe methods."
 
 **Point out:**
 - Input: bulletin_board.compact (Compact contract)
@@ -66,7 +66,7 @@ python hackathon_demo.py
 ### 5. Zero-Knowledge Proofs (45 seconds)
 
 **Say:**
-> "midnight-py also integrates with the ZK proof server. While we'd need circuit files 
+> "midnight-sdk also integrates with the ZK proof server. While we'd need circuit files 
 > configured for a full demo, you can see the proof server is running and responding. 
 > In production, this would generate real cryptographic proofs where private data stays private."
 
@@ -79,12 +79,12 @@ python hackathon_demo.py
 ### 7. Summary & Pitch (90 seconds)
 
 **Say:**
-> "Let me summarize what midnight-py brings to Midnight:
+> "Let me summarize what midnight-sdk brings to Midnight:
 > 
 > First, the problem: Midnight only has TypeScript, but Python has 10 million developers 
 > and dominates ML, AI, and backend development.
 > 
-> midnight-py solves this with five killer features:
+> midnight-sdk solves this with five killer features:
 > 
 > 1. Auto-codegen - .compact files become Python classes automatically
 > 2. Type-safe - Pydantic models everywhere for safety
@@ -101,13 +101,13 @@ python hackathon_demo.py
 > The stats: 3,500+ lines of code, 35+ files, 19 out of 23 tests passing, 
 > full documentation, and it's production-ready.
 > 
-> midnight-py brings Python's 10 million developers to Midnight. Thank you!"
+> midnight-sdk brings Python's 10 million developers to Midnight. Thank you!"
 
 ### 8. Quick CLI Demo (Optional - 30 seconds)
 
 **Run:**
 ```bash
-midnight-py status
+midnight-sdk status
 ```
 
 **Say:**
@@ -150,6 +150,6 @@ Show these files if you have time:
 - `README.md` - Full documentation
 - `examples/` - Working examples
 - `tests/` - Test suite
-- `midnight_py/` - Clean, professional code
+- `midnight_sdk/` - Clean, professional code
 
 Good luck! 🚀

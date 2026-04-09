@@ -15,8 +15,8 @@ Tests:
 import sys
 import time
 from pathlib import Path
-from midnight_py import MidnightClient
-from midnight_py.exceptions import MidnightSDKError
+from midnight_sdk import MidnightClient
+from midnight_sdk.exceptions import MidnightSDKError
 
 def print_section(title):
     """Print a section header"""

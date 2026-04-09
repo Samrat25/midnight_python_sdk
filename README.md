@@ -39,8 +39,8 @@ A comprehensive Python SDK for building zero-knowledge applications on the Midni
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/midnight-python-sdk.git
-cd midnight-python-sdk
+git clone https://github.com/yourusername/midnight-sdkthon-sdk.git
+cd midnight-sdkthon-sdk
 
 # Install Python package
 pip install -e .
@@ -66,35 +66,35 @@ echo "your twenty four word mnemonic phrase goes here..." > mnemonic.txt
 
 ### CLI Usage
 
-The midnight-py CLI provides a clean workflow for interacting with the Midnight blockchain:
+The midnight-sdk CLI provides a clean workflow for interacting with the Midnight blockchain:
 
 ```bash
 # Check services
-midnight-py status
+midnight-sdk status
 
 # Check latest block (proves chain is running)
-midnight-py block
+midnight-sdk block
 
 # Check wallet balance
 # DUST is unshielded and readable directly
 # NIGHT is shielded — privacy by design — use wallet_fix.py for full balance
-midnight-py balance mn_addr_undeployed1your_address_here
+midnight-sdk balance mn_addr_undeployed1your_address_here
 
 # Deploy a contract
 export MIDNIGHT_KEY=your_private_key
-midnight-py deploy contracts/bulletin_board.compact --wallet mn_addr...
+midnight-sdk deploy contracts/bulletin_board.compact --wallet mn_addr...
 
 # Call a circuit
-midnight-py call <contract_address> post --args '{"message": "hello"}'
+midnight-sdk call <contract_address> post --args '{"message": "hello"}'
 
 # Read contract state
-midnight-py state <contract_address>
+midnight-sdk state <contract_address>
 
 # Look up a transaction
-midnight-py tx get <tx_hash>
+midnight-sdk tx get <tx_hash>
 
 # List transactions for a contract
-midnight-py tx list <contract_address>
+midnight-sdk tx list <contract_address>
 ```
 
 ### Why NIGHT Balance Shows as Private
@@ -108,7 +108,7 @@ This turns the "bug" into a feature demo.
 ### Basic Example
 
 ```python
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 from pathlib import Path
 
 # Initialize client
@@ -140,7 +140,7 @@ print(f"Explorer: http://localhost:8088/tx/{result.tx_hash}")
 ### AI Inference with ZK Proofs
 
 ```python
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 
 client = MidnightClient(network="undeployed")
 
@@ -159,7 +159,7 @@ print(f"Transaction: {result.transaction_hash}")
 ### Auto-Generated Contract Bindings
 
 ```python
-from midnight_py.codegen import compact_to_python
+from midnight_sdk.codegen import compact_to_python
 
 # Generate Python class from Compact contract
 BulletinBoard = compact_to_python("contracts/bulletin_board.compact")
@@ -174,7 +174,7 @@ board.post(message="Hello Midnight!", private_key=key)
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                    Your Application                      │
-│                  (Python with midnight_py)               │
+│                  (Python with midnight_sdk)               │
 └────────────────────┬────────────────────────────────────┘
                      │
         ┌────────────┼────────────┐
@@ -254,8 +254,8 @@ Features:
 ### Project Structure
 
 ```
-midnight-python-sdk/
-├── midnight_py/          # Core SDK package
+midnight-sdkthon-sdk/
+├── midnight_sdk/          # Core SDK package
 │   ├── __init__.py
 │   ├── client.py         # Main client
 │   ├── wallet.py         # Wallet operations
@@ -308,8 +308,8 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 
 ```bash
 # Fork and clone
-git clone https://github.com/yourusername/midnight-python-sdk.git
-cd midnight-python-sdk
+git clone https://github.com/yourusername/midnight-sdkthon-sdk.git
+cd midnight-sdkthon-sdk
 
 # Create virtual environment
 python -m venv venv
@@ -334,8 +334,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/midnight-python-sdk/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/midnight-python-sdk/discussions)
+- **Issues**: [GitHub Issues](https://github.com/yourusername/midnight-sdkthon-sdk/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/midnight-sdkthon-sdk/discussions)
 - **Documentation**: [docs/](docs/)
 
 ## 🗺️ Roadmap

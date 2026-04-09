@@ -62,6 +62,7 @@ def compile_compact(contract_path: str, output_dir: str | None = None) -> Path:
                 ["wsl", "which", "compactc"],
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
                 timeout=5
             )
             if result.returncode == 0:
@@ -74,6 +75,7 @@ def compile_compact(contract_path: str, output_dir: str | None = None) -> Path:
                     ["wsl", "which", "compact"],
                     capture_output=True,
                     text=True,
+                encoding="utf-8",
                     timeout=5
                 )
                 if result.returncode == 0:
@@ -94,6 +96,7 @@ def compile_compact(contract_path: str, output_dir: str | None = None) -> Path:
             check_cmd,
             capture_output=True,
             text=True,
+                encoding="utf-8",
             timeout=5
         )
         # Just check if command succeeded (compactc returns version number only)
@@ -155,6 +158,7 @@ def compile_compact(contract_path: str, output_dir: str | None = None) -> Path:
             compile_cmd,
             capture_output=True,
             text=True,
+                encoding="utf-8",
             timeout=120
         )
         
@@ -280,3 +284,5 @@ def compact_to_python(contract_path: str) -> type:
     generated_class = type(contract_name, (), methods)
     generated_class.__doc__ = f"Auto-generated from {contract_path}"
     return generated_class
+
+

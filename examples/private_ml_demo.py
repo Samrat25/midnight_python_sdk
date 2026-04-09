@@ -21,9 +21,9 @@ import subprocess
 import os
 import sys
 from pathlib import Path
-from midnight_py import MidnightClient
-from midnight_py.codegen import compact_to_python
-from midnight_py.models import ZKProof
+from midnight_sdk import MidnightClient
+from midnight_sdk.codegen import compact_to_python
+from midnight_sdk.models import ZKProof
 from rich.console import Console
 from rich import print as rprint
 import httpx

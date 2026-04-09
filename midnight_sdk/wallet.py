@@ -7,6 +7,40 @@ from .models import Balance, TransactionResult
 from .exceptions import WalletError, ConnectionError as MidnightConnectionError
 
 
+def _find_node_executable() -> str:
+    """
+    Find the Node.js executable on Windows.
+    
+    Returns:
+        Path to node.exe
+        
+    Raises:
+        WalletError: If Node.js is not found
+    """
+    node_paths = [
+        "node",  # Try PATH first
+        r"C:\Program Files\nodejs\node.exe",
+        r"C:\Program Files (x86)\nodejs\node.exe",
+    ]
+    
+    for path in node_paths:
+        try:
+            test_result = subprocess.run(
+                [path, "--version"],
+                capture_output=True,
+                timeout=5
+            )
+            if test_result.returncode == 0:
+                return path
+        except:
+            continue
+    
+    raise WalletError(
+        "Node.js not found. Please install Node.js 22+ from https://nodejs.org/ "
+        "or add it to your PATH."
+    )
+
+
 def get_explorer_url(tx_hash: str, network_id: str = "undeployed") -> str:
     """
     Get the explorer URL for a transaction.
@@ -79,7 +113,7 @@ class WalletClient:
         
         Returns {"address": "mn1...", "dust": "0", "night": "0"}
         """
-        helper_script = Path(__file__).parent.parent / "get_wallet_address.mjs"
+        helper_script = Path(__file__).parent.parent / "scripts" / "wallet" / "get_wallet_address.mjs"
         
         if not helper_script.exists():
             raise WalletError(
@@ -99,10 +133,13 @@ class WalletClient:
             )
 
         try:
+            node_cmd = _find_node_executable()
+            
             result = subprocess.run(
-                ["node", str(helper_script)],
+                [node_cmd, str(helper_script)],
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
                 timeout=30,
                 cwd=str(helper_script.parent),
                 env={**os.environ, "MNEMONIC": mnemonic, "NETWORK_ID": network_id},
@@ -133,7 +170,7 @@ class WalletClient:
             "dust": "hex_key"
         }
         """
-        helper_script = Path(__file__).parent.parent / "get_private_key.mjs"
+        helper_script = Path(__file__).parent.parent / "scripts" / "wallet" / "get_private_key.mjs"
         
         if not helper_script.exists():
             raise WalletError(
@@ -152,10 +189,13 @@ class WalletClient:
             )
 
         try:
+            node_cmd = _find_node_executable()
+            
             result = subprocess.run(
-                ["node", str(helper_script)],
+                [node_cmd, str(helper_script)],
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
                 timeout=30,
                 cwd=str(helper_script.parent),
                 env={**os.environ, "MNEMONIC": mnemonic},
@@ -190,7 +230,7 @@ class WalletClient:
         import os
         from pathlib import Path
         
-        script = Path(__file__).parent.parent / "read_balance.mjs"
+        script = Path(__file__).parent.parent / "scripts" / "utilities" / "read_balance.mjs"
         if not script.exists():
             # Fallback to indexer for DUST only
             return Balance(dust=0, night=0)
@@ -213,6 +253,7 @@ class WalletClient:
                 ["node", str(script)],
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
                 timeout=45,
                 env={**os.environ, "MNEMONIC": mnemonic, "NETWORK": network_id},
             )
@@ -323,4 +364,6 @@ class WalletClient:
             tx_hash=tx_hash,
             status="submitted",
         )
+
+
 

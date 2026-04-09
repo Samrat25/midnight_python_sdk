@@ -28,15 +28,15 @@ jobs:
     
     - name: Lint with ruff
       run: |
-        ruff check midnight_py/ tests/
+        ruff check midnight_sdk/ tests/
     
     - name: Type check with mypy
       run: |
-        mypy midnight_py/ --ignore-missing-imports
+        mypy midnight_sdk/ --ignore-missing-imports
     
     - name: Run tests
       run: |
-        pytest tests/ -v --cov=midnight_py --cov-report=xml
+        pytest tests/ -v --cov=midnight_sdk --cov-report=xml
     
     - name: Upload coverage
       uses: codecov/codecov-action@v3

@@ -1,4 +1,4 @@
-# Contract Testing Guide
+  # Contract Testing Guide
 
 Complete guide for testing Midnight smart contracts with transaction signing.
 
@@ -68,7 +68,7 @@ This will:
 #### Test Hello World
 
 ```python
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 from pathlib import Path
 
 # Initialize
@@ -179,7 +179,7 @@ for i in range(2):
 ### Deploy Contract
 
 ```bash
-midnight-py deploy contracts/hello_world.compact \
+midnight-sdk deploy contracts/hello_world.compact \
   --wallet mn_addr_... \
   --sign
 ```
@@ -187,7 +187,7 @@ midnight-py deploy contracts/hello_world.compact \
 ### Call Circuit
 
 ```bash
-midnight-py call <contract_address> storeMessage \
+midnight-sdk call <contract_address> storeMessage \
   --wallet mn_addr_... \
   --sign
 ```
@@ -196,13 +196,13 @@ midnight-py call <contract_address> storeMessage \
 
 ```bash
 # List all transactions
-midnight-py tx list
+midnight-sdk tx list
 
 # Check specific transaction
-midnight-py tx status <tx_hash>
+midnight-sdk tx status <tx_hash>
 
 # Approve pending transaction
-midnight-py tx approve <tx_hash>
+midnight-sdk tx approve <tx_hash>
 ```
 
 ## Transaction Signing Flow
@@ -257,7 +257,7 @@ midnight-py tx approve <tx_hash>
 http://localhost:8088/tx/<deployment_tx_hash>
 
 # Check transaction status
-midnight-py tx status <deployment_tx_hash>
+midnight-sdk tx status <deployment_tx_hash>
 ```
 
 ### Check Circuit Execution
@@ -267,14 +267,14 @@ midnight-py tx status <deployment_tx_hash>
 http://localhost:8088/tx/<circuit_tx_hash>
 
 # Check transaction status
-midnight-py tx status <circuit_tx_hash>
+midnight-sdk tx status <circuit_tx_hash>
 ```
 
 ### Verify All Transactions
 
 ```bash
 # List all transactions
-midnight-py tx list
+midnight-sdk tx list
 
 # Should show:
 #   - Deployment transactions (4)
@@ -368,7 +368,7 @@ This is expected! Deployment transactions don't have ZK proofs in this implement
 **Solution**:
 ```bash
 # Check if contract was deployed
-midnight-py tx status <deployment_tx_hash>
+midnight-sdk tx status <deployment_tx_hash>
 
 # Check if circuit name is correct
 # Must match exactly: "increment" not "Increment"
@@ -386,7 +386,7 @@ node get_private_key.mjs
 # Wait 4 seconds for auto-confirmation
 
 # Or manually approve
-midnight-py tx approve <tx_hash>
+midnight-sdk tx approve <tx_hash>
 
 # Check node logs
 docker logs midnightsdk-midnight-node-1

@@ -23,7 +23,7 @@ def test_1_preprod_status():
     """Test 1: Check preprod network status"""
     print_section("TEST 1: Preprod Network Status")
     
-    from midnight_py import MidnightClient
+    from midnight_sdk import MidnightClient
     
     print("Checking REAL Midnight preprod network...")
     print("  Node: https://rpc.preprod.midnight.network")
@@ -57,7 +57,7 @@ def test_2_preprod_balance():
     """Test 2: Check preprod balance"""
     print_section("TEST 2: Preprod Balance Check")
     
-    from midnight_py import MidnightClient
+    from midnight_sdk import MidnightClient
     
     # Your REAL preprod wallet
     address = "mn_addr_preprod1qr0n4n8lhczmnnjv0ryzvcul3dteals0ejjgs7mmpqueh4u9clqssyv3kd"
@@ -94,11 +94,11 @@ def test_2_preprod_balance():
         
         print("  Option 2: Use CLI with Wallet SDK")
         print("    $env:MNEMONIC = Get-Content prepod.mnemonic.txt")
-        print("    midnight-py balance <address> --network preprod --use-wallet-sdk")
+        print("    midnight-sdk balance <address> --network preprod --use-wallet-sdk")
         print("    (Note: Currently has sync timeout issue)\n")
         
         print("  Option 3: Check Lace wallet info")
-        print("    midnight-py lace info --network preprod\n")
+        print("    midnight-sdk lace info --network preprod\n")
         
         print("✅ Preprod indexer is working!")
         print("✅ Your wallet exists on preprod")
@@ -134,14 +134,14 @@ def test_3_lace_wallet_info():
     print("  3. View your balance in Lace")
     print("  4. Copy your address from Lace")
     print("  5. Use with CLI commands:")
-    print("     midnight-py balance <address> --network preprod")
-    print("     midnight-py deploy <contract> --network preprod\n")
+    print("     midnight-sdk balance <address> --network preprod")
+    print("     midnight-sdk deploy <contract> --network preprod\n")
     
     print("─── CLI Commands for Lace ───────────────────────────────────────\n")
-    print("  midnight-py lace info --network preprod")
-    print("  midnight-py lace balance --network preprod")
-    print("  midnight-py lace addresses --network preprod")
-    print("  midnight-py lace config --network preprod\n")
+    print("  midnight-sdk lace info --network preprod")
+    print("  midnight-sdk lace balance --network preprod")
+    print("  midnight-sdk lace addresses --network preprod")
+    print("  midnight-sdk lace config --network preprod\n")
     
     print("Result: ✅ PASSED (Information provided)")
     return True
@@ -224,7 +224,7 @@ def test_5_deployment_readiness():
     
     # Check 3: SDK packages
     try:
-        import midnight_py
+        import midnight_sdk
         print("✅ Midnight Python SDK installed")
         checks['sdk'] = True
     except ImportError:

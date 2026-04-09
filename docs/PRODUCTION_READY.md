@@ -51,7 +51,7 @@ curl http://localhost:6300/health
 
 ### 2. Real Transaction Signing
 
-**Implementation:** `midnight_py/wallet.py`
+**Implementation:** `midnight_sdk/wallet.py`
 
 ```python
 def sign_transaction(self, tx: dict, private_key: str) -> dict:
@@ -74,7 +74,7 @@ def sign_transaction(self, tx: dict, private_key: str) -> dict:
 
 ### 3. Real Transaction Submission
 
-**Implementation:** `midnight_py/wallet.py`
+**Implementation:** `midnight_sdk/wallet.py`
 
 ```python
 def submit_transaction(self, signed_tx: dict) -> TransactionResult:
@@ -105,7 +105,7 @@ def submit_transaction(self, signed_tx: dict) -> TransactionResult:
 
 ### 4. Explorer Links
 
-**Implementation:** `midnight_py/wallet.py`
+**Implementation:** `midnight_sdk/wallet.py`
 
 ```python
 def get_explorer_url(tx_hash: str, network_id: str = "undeployed") -> str:
@@ -231,7 +231,7 @@ View transaction on explorer:
 ### Basic Inference (No Signing)
 
 ```python
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 
 # Connect to undeployed network
 client = MidnightClient(
@@ -254,7 +254,7 @@ print(f"Proof hash: {result.proof_hash}")
 ### Inference with Signing
 
 ```python
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 from pathlib import Path
 
 # Get private key
@@ -286,7 +286,7 @@ print(f"Explorer: https://explorer.nocy.io/tx/{result.transaction_hash}")
 ### Using Testnet
 
 ```python
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 
 # Connect to testnet
 client = MidnightClient(

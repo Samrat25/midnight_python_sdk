@@ -1,5 +1,5 @@
-from midnight_py.wallet import WalletClient
-from midnight_py.models import Balance
+from midnight_sdk.wallet import WalletClient
+from midnight_sdk.models import Balance
 import pytest
 
 

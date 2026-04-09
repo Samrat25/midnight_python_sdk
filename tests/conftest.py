@@ -1,3 +1,3 @@
-"""Test configuration for midnight-py."""
+"""Test configuration for midnight-sdk."""
 
-pytest_plugins = ["midnight_py.pytest_plugin"]
+pytest_plugins = ["midnight_sdk.pytest_plugin"]

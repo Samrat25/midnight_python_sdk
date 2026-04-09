@@ -12,8 +12,8 @@ Then run this file:
   python examples/real_demo.py
 """
 
-from midnight_py import MidnightClient
-from midnight_py.codegen import compact_to_python
+from midnight_sdk import MidnightClient
+from midnight_sdk.codegen import compact_to_python
 from rich.console import Console
 from rich import print as rprint
 

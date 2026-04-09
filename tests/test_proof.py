@@ -1,5 +1,5 @@
-from midnight_py.proof import ProofClient
-from midnight_py.models import ZKProof
+from midnight_sdk.proof import ProofClient
+from midnight_sdk.models import ZKProof
 import pytest
 
 
