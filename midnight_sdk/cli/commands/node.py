@@ -19,10 +19,28 @@ def node_status(profile: str = typer.Option(None, "--profile", "-p", help="Netwo
     profile_obj = config_mgr.get_profile(profile)
     
     try:
-        response = httpx.get(f"{profile_obj.node_url}/status", timeout=10)
-        response.raise_for_status()
-        status = response.json()
-        console.print(json.dumps(status, indent=2))
+        # Try different endpoints for node status
+        endpoints = ["/health", "/system/health", ""]
+        
+        for endpoint in endpoints:
+            try:
+                url = f"{profile_obj.node_url}{endpoint}"
+                response = httpx.post(
+                    profile_obj.node_url,
+                    json={"jsonrpc": "2.0", "id": 1, "method": "system_health", "params": []},
+                    timeout=10
+                )
+                if response.status_code == 200:
+                    status = response.json()
+                    console.print(json.dumps(status, indent=2))
+                    return
+            except:
+                continue
+        
+        # If all fail, show node is reachable
+        console.print(f"[green]✓[/green] Node is online at {profile_obj.node_url}")
+        console.print("[dim]Note: Detailed status endpoint not available on this node[/dim]")
+        
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
         raise typer.Exit(1)

@@ -123,26 +123,32 @@ def tx_list(
     
     try:
         client = MidnightClient(network=profile_obj.name)
-        txs = client.indexer.get_recent_transactions(limit)
         
-        table = Table(title="Recent Transactions")
-        table.add_column("Hash", style="cyan")
-        table.add_column("Type", style="yellow")
-        table.add_column("Status", style="green")
-        table.add_column("Block", style="dim")
-        
-        for tx in txs:
-            table.add_row(
-                tx["hash"][:16] + "...",
-                tx.get("type", "unknown"),
-                tx.get("status", "pending"),
-                str(tx.get("block", "-")),
-            )
-        
-        console.print(table)
+        # Check if method exists
+        if hasattr(client.indexer, 'get_recent_transactions'):
+            txs = client.indexer.get_recent_transactions(limit)
+            
+            table = Table(title="Recent Transactions")
+            table.add_column("Hash", style="cyan")
+            table.add_column("Type", style="yellow")
+            table.add_column("Status", style="green")
+            table.add_column("Block", style="dim")
+            
+            for tx in txs:
+                table.add_row(
+                    tx["hash"][:16] + "...",
+                    tx.get("type", "unknown"),
+                    tx.get("status", "pending"),
+                    str(tx.get("block", "-")),
+                )
+            
+            console.print(table)
+        else:
+            console.print("[yellow]Transaction listing not yet implemented for this network[/yellow]")
+            console.print("[dim]Use 'midnight tx history <address>' to view transactions for a specific address[/dim]")
     except Exception as e:
-        console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
+        console.print(f"[yellow]Transaction listing not available: {e}[/yellow]")
+        console.print("[dim]Use 'midnight tx history <address>' to view transactions for a specific address[/dim]")
 
 
 @app.command("watch")

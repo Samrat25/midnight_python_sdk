@@ -37,6 +37,7 @@ dev = [
 
 [project.scripts]
 midnight = "midnight_sdk.cli:cli_main"
+midnight-py = "midnight_sdk.cli:cli_main"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
