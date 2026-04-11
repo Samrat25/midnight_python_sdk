@@ -3,7 +3,7 @@
 import pytest
 from unittest.mock import Mock, MagicMock
 from midnight_sdk import MidnightClient
-from midnight_sdk.models import Balance, ZKProof
+from midnight_sdk.models import Balance, ZKProof, TransactionResult
 
 
 @pytest.fixture
@@ -43,7 +43,6 @@ def midnight_client():
     mock_contract.circuit_ids = ["post", "increment"]
     
     # Mock contract call to return TransactionResult
-    from midnight_sdk.models import TransactionResult
     mock_tx_result = TransactionResult(
         tx_hash="0x123abc",
         status="pending",
