@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Transactions</title>
+</head>
+<body>
+    <h1>Transaction Log Test</h1>
+    <button onclick="addTestTransaction()">Add Test Transaction</button>
+    <button onclick="viewTransactions()">View Transactions</button>
+    <button onclick="clearTransactions()">Clear All</button>
+    <pre id="output"></pre>
+
+    <script>
+        function addTestTransaction() {
+            const testTx = {
+                type: 'receive',
+                address: 'CLI Airdrop - 50 NIGHT',
+                amount: 50000000,
+                token: 'NIGHT',
+                timestamp: Date.now()
+            };
+
+            let txs = JSON.parse(localStorage.getItem('midnight_transactions') || '[]');
+            txs.unshift(testTx);
+            localStorage.setItem('midnight_transactions', JSON.stringify(txs));
+            
+            document.getElementById('output').textContent = 'Transaction added!\n' + JSON.stringify(testTx, null, 2);
+        }
+
+        function viewTransactions() {
+            const txs = JSON.parse(localStorage.getItem('midnight_transactions') || '[]');
+            document.getElementById('output').textContent = 'Total: ' + txs.length + '\n\n' + JSON.stringify(txs, null, 2);
+        }
+
+        function clearTransactions() {
+            localStorage.removeItem('midnight_transactions');
+            document.getElementById('output').textContent = 'All transactions cleared!';
+        }
+    </script>
+</body>
+</html>
