@@ -3,21 +3,29 @@ from midnight_sdk.models import Balance
 import pytest
 
 
-def test_generate_address_preprod():
+def test_get_real_address_undeployed():
+    """Test generating address for undeployed (local) network."""
     wallet = WalletClient()
-    addr = wallet.generate_address("test seed phrase", network="preprod")
-    assert addr.startswith("mn_preprod1")
-    assert len(addr) > 20
+    mnemonic = "test seed phrase word word word word word word word word word word word word word word word word word word word word word"
+    result = wallet.get_real_address(mnemonic, "undeployed")
+    assert "address" in result
+    assert result["address"].startswith("mn_addr_undeployed1")
 
 
-def test_generate_address_mainnet():
+def test_get_real_address_returns_dict():
+    """Test that get_real_address returns a dictionary with address key."""
     wallet = WalletClient()
-    addr = wallet.generate_address("test seed phrase", network="mainnet")
-    assert addr.startswith("mn1")
+    mnemonic = "test seed phrase word word word word word word word word word word word word word word word word word word word word word"
+    result = wallet.get_real_address(mnemonic, "undeployed")
+    assert isinstance(result, dict)
+    assert "address" in result
+    assert len(result["address"]) > 20
 
 
-def test_generate_address_deterministic():
+def test_get_real_address_deterministic():
+    """Test that same mnemonic generates same address."""
     wallet = WalletClient()
-    addr1 = wallet.generate_address("same seed", network="preprod")
-    addr2 = wallet.generate_address("same seed", network="preprod")
-    assert addr1 == addr2
+    mnemonic = "same seed phrase word word word word word word word word word word word word word word word word word word word word word"
+    result1 = wallet.get_real_address(mnemonic, "undeployed")
+    result2 = wallet.get_real_address(mnemonic, "undeployed")
+    assert result1["address"] == result2["address"]
