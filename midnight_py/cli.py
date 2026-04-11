@@ -304,13 +304,15 @@ def wallet(
     
     rprint("  [bold]Option 2: Explorer[/bold]")
     if network == "preprod":
-        explorer_url = f"https://explorer.preprod.midnight.network/address/{address}"
+        explorer_url = "https://preprod.midnightexplorer.com"
+        rprint(f"    [cyan]{explorer_url}[/cyan]")
+        rprint(f"    [dim]Search: {address}[/dim]\n")
     elif network == "testnet":
         explorer_url = f"https://explorer.testnet-02.midnight.network/address/{address}"
+        rprint(f"    [cyan]{explorer_url}[/cyan]\n")
     else:
         explorer_url = f"https://explorer.{network}.midnight.network/address/{address}"
-    
-    rprint(f"    [cyan]{explorer_url}[/cyan]\n")
+        rprint(f"    [cyan]{explorer_url}[/cyan]\n")
     
     rprint("  [bold]Option 3: Lace CLI Integration[/bold]")
     rprint(f"    midnight-py lace info --network {network}")
@@ -480,8 +482,12 @@ def balance(
             
             rprint("[bold]View Your Balance:[/bold]")
             rprint("  1. Lace Wallet: [cyan]https://www.lace.io/[/cyan]")
-            rprint("  2. Explorer: [cyan]https://explorer.preprod.midnight.network/address/" + address + "[/cyan]")
+            rprint("  2. Explorer: [cyan]https://preprod.midnightexplorer.com[/cyan]")
             rprint("  3. CLI: [dim]midnight-py wallet " + address + " --network preprod[/dim]\n")
+            
+            rprint(f"[bold]Search Your Address on Explorer:[/bold]")
+            rprint(f"  [cyan]https://preprod.midnightexplorer.com[/cyan]")
+            rprint(f"  [dim]Search: {address}[/dim]\n")
         else:
             rprint(f"[dim]💡 To see real NIGHT balance, use:[/dim]")
             rprint(f"[dim]   midnight-py balance {address} --network {network} --use-wallet-sdk[/dim]\n")

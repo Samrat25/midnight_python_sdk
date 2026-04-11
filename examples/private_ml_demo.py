@@ -337,6 +337,11 @@ def main():
         rprint(f"\n  [green]TX Hash: {tx['tx_hash']}[/green]")
         rprint(f"  Contract: {tx['contract_address']}")
         rprint(f"  Status:   {tx['status']}")
+        
+        # Add explorer link for preprod
+        if client.network == "preprod":
+            rprint(f"\n  [bold]View on explorer:[/bold]")
+            rprint(f"  [cyan]https://preprod.midnightexplorer.com/tx/{tx['tx_hash']}[/cyan]")
     except Exception as e:
         rprint(f"  [red]On-chain submission failed: {e}[/red]")
         sys.exit(1)
