@@ -6,7 +6,6 @@ import {
   ArrowDown,
   ArrowRight,
   BookOpen,
-  Github,
   ShieldCheck,
   Sparkles,
   TerminalSquare,
@@ -213,7 +212,7 @@ const resourceLinks: IconLinkProps[] = [
   },
   {
     href: "https://github.com/Samrat25/midnight_python_sdk",
-    icon: Github,
+    icon: Code2,
     label: "GitHub",
     className:
       "border-[#7c5cff]/35 text-[#c9b3ff] hover:bg-[#7c5cff]/16 hover:text-white",

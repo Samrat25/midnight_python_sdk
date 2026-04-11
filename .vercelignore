@@ -1,0 +1,66 @@
+# Python files
+*.py
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Midnight SDK specific
+midnight_sdk/
+midnight_py/
+examples/
+tests/
+docs/
+contracts/
+data/
+config/
+docker/
+
+# Build artifacts
+*.compact
+*.wasm
+*.zkir
+
+# Documentation
+*.md
+!frontend/README.md
+
+# Config files
+*.toml
+*.yaml
+*.yml
+!frontend/package.json
+!frontend/pnpm-lock.yaml
+Makefile
+docker-compose.yml
+
+# Git
+.git/
+.github/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
