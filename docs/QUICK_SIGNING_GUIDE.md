@@ -42,7 +42,7 @@ Open browser: `http://localhost:8088`
 ### Basic Signing
 
 ```python
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 from pathlib import Path
 
 # 1. Create client
@@ -71,7 +71,7 @@ signed_tx = client.wallet.sign_transaction(tx, private_key)
 result = client.wallet.submit_transaction(signed_tx)
 
 # 6. Get explorer URL
-from midnight_py.wallet import get_explorer_url
+from midnight_sdk.wallet import get_explorer_url
 url = get_explorer_url(result.tx_hash, "undeployed")
 print(f"View: {url}")
 ```
@@ -79,7 +79,7 @@ print(f"View: {url}")
 ### AI Inference with Signing
 
 ```python
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 from pathlib import Path
 
 client = MidnightClient(network="undeployed")
@@ -103,8 +103,8 @@ print(f"Explorer: http://localhost:8088/tx/{result.transaction_hash}")
 ### Bulletin Board with Signing
 
 ```python
-from midnight_py import MidnightClient
-from midnight_py.codegen import compact_to_python
+from midnight_sdk import MidnightClient
+from midnight_sdk.codegen import compact_to_python
 from pathlib import Path
 
 client = MidnightClient(network="undeployed")

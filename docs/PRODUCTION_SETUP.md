@@ -97,8 +97,8 @@ https://explorer.testnet.midnight.network/block/{block_number}
 ## Production Code Example
 
 ```python
-from midnight_py import MidnightClient
-from midnight_py.wallet import WalletClient
+from midnight_sdk import MidnightClient
+from midnight_sdk.wallet import WalletClient
 from pathlib import Path
 
 # 1. Load mnemonic
@@ -258,7 +258,7 @@ docker run -d -p 6300:6300 ghcr.io/midnight-ntwrk/proof-server:latest
 ### DO Commit
 
 - ✅ `examples/` - Example code
-- ✅ `midnight_py/` - SDK code
+- ✅ `midnight_sdk/` - SDK code
 - ✅ `tests/` - Test code
 - ✅ `README.md` - Documentation
 

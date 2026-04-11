@@ -3,8 +3,8 @@ Integration tests that verify the full SDK workflow.
 These use mocked services but test the complete flow.
 """
 
-from midnight_py import MidnightClient, compact_to_python
-from midnight_py.models import Balance, ZKProof, TransactionResult
+from midnight_sdk import MidnightClient, compact_to_python
+from midnight_sdk.models import Balance, ZKProof, TransactionResult
 import pytest
 
 
@@ -89,7 +89,7 @@ def test_contract_state_query(midnight_client):
 def test_error_handling_invalid_network():
     """Test that invalid network raises proper error."""
     
-    from midnight_py.exceptions import MidnightSDKError
+    from midnight_sdk.exceptions import MidnightSDKError
     
     with pytest.raises(MidnightSDKError, match="Unknown network"):
         MidnightClient(network="invalid_network")
@@ -98,7 +98,7 @@ def test_error_handling_invalid_network():
 def test_contract_call_without_key(midnight_client, sample_compact_contract):
     """Test that calling without a private key raises error."""
     
-    from midnight_py.exceptions import ContractCallError
+    from midnight_sdk.exceptions import ContractCallError
     
     ContractClass = compact_to_python(sample_compact_contract)
     contract = midnight_client.contracts.load("addr", ["post"])

@@ -5,8 +5,8 @@ Shows how to implement private voting using midnight-py
 Run: python examples/private_vote.py
 """
 
-from midnight_py import MidnightClient
-from midnight_py.codegen import compact_to_python
+from midnight_sdk import MidnightClient
+from midnight_sdk.codegen import compact_to_python
 from rich import print as rprint
 from rich.console import Console
 import json

@@ -7,9 +7,9 @@ Run: python examples/bulletin_board.py
 
 import os
 from pathlib import Path
-from midnight_py import MidnightClient
-from midnight_py.codegen import compact_to_python
-from midnight_py.exceptions import ProofServerConnectionError
+from midnight_sdk import MidnightClient
+from midnight_sdk.codegen import compact_to_python
+from midnight_sdk.exceptions import ProofServerConnectionError
 from rich import print as rprint
 from rich.console import Console
 
@@ -28,7 +28,7 @@ def main():
         rprint("Create it with your 24-word mnemonic")
         return
     
-    from midnight_py.wallet import WalletClient
+    from midnight_sdk.wallet import WalletClient
     wallet = WalletClient()
     mnemonic = mnemonic_file.read_text().strip()
     
@@ -49,9 +49,9 @@ def main():
         rprint(f"\n[yellow]⚠ {e}[/yellow]")
         rprint("\n[bold]Continuing with demo (proof server not required for codegen)...[/bold]\n")
         # Create client without checking proof server
-        from midnight_py.wallet import WalletClient as WC
-        from midnight_py.indexer import IndexerClient
-        from midnight_py.proof import ProofClient
+        from midnight_sdk.wallet import WalletClient as WC
+        from midnight_sdk.indexer import IndexerClient
+        from midnight_sdk.proof import ProofClient
         
         wallet_client = WC()
         indexer_client = IndexerClient(
@@ -180,7 +180,7 @@ Every contract call is signed with your private key:
 [bold]For Contract Deployment:[/bold]
 
 1. Compile your contract:
-   [cyan]from midnight_py.codegen import compile_compact[/cyan]
+   [cyan]from midnight_sdk.codegen import compile_compact[/cyan]
    [cyan]compile_compact('contracts/bulletin_board.compact')[/cyan]
 
 2. Use the auto-generated class:

@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "midnight-py"
+name = "midnight-sdk"
 version = "0.1.0"
 description = "The first Python SDK for the Midnight blockchain"
 readme = "README.md"
@@ -20,6 +20,9 @@ dependencies = [
     "scikit-learn>=1.3",
     "joblib>=1.3",
     "numpy>=1.24",
+    "pyyaml>=6.0",
+    "ipython>=8.0",
+    "pandas>=2.0",
 ]
 
 [project.optional-dependencies]
@@ -33,7 +36,7 @@ dev = [
 ]
 
 [project.scripts]
-midnight-py = "midnight_py.cli:main"
+midnight = "midnight_sdk.cli:cli_main"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

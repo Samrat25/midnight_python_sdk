@@ -4,7 +4,7 @@
 
 The project has been cleaned up, restructured, and pushed to GitHub!
 
-**Repository:** https://github.com/Samrat25/midnight_python_sdk
+**Repository:** https://github.com/Samrat25/midnight_sdkthon_sdk
 
 ## 📊 Changes Summary
 
@@ -69,11 +69,11 @@ The project has been cleaned up, restructured, and pushed to GitHub!
 ### Files Modified
 
 #### Core SDK
-- 🔄 `midnight_py/client.py` - Enhanced client
-- 🔄 `midnight_py/wallet.py` - Transaction signing
-- 🔄 `midnight_py/ai.py` - ZK-ML inference
-- 🔄 `midnight_py/codegen.py` - Auto-codegen
-- 🔄 `midnight_py/cli.py` - CLI improvements
+- 🔄 `midnight_sdk/client.py` - Enhanced client
+- 🔄 `midnight_sdk/wallet.py` - Transaction signing
+- 🔄 `midnight_sdk/ai.py` - ZK-ML inference
+- 🔄 `midnight_sdk/codegen.py` - Auto-codegen
+- 🔄 `midnight_sdk/cli.py` - CLI improvements
 
 #### Docker Services
 - 🔄 `docker/node/server.py` - Transaction storage
@@ -94,8 +94,8 @@ The project has been cleaned up, restructured, and pushed to GitHub!
 ## 📁 New Directory Structure
 
 ```
-midnight-python-sdk/
-├── 📦 midnight_py/              # Core SDK
+midnight-sdkthon-sdk/
+├── 📦 midnight_sdk/              # Core SDK
 ├── 📜 contracts/                # Smart contracts
 │   ├── *.compact               # Contract sources
 │   └── managed/                # Compiled contracts
@@ -176,7 +176,7 @@ midnight-python-sdk/
 ## 🚀 GitHub Repository
 
 ### Repository Info
-- **URL:** https://github.com/Samrat25/midnight_python_sdk
+- **URL:** https://github.com/Samrat25/midnight_sdkthon_sdk
 - **Branch:** main
 - **Status:** ✅ Up to date
 - **Last Push:** Just now
@@ -197,8 +197,8 @@ midnight-python-sdk/
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/Samrat25/midnight_python_sdk.git
-   cd midnight_python_sdk
+   git clone https://github.com/Samrat25/midnight_sdkthon_sdk.git
+   cd midnight_sdkthon_sdk
    ```
 
 2. **Follow Quick Start:**
@@ -270,9 +270,9 @@ midnight-python-sdk/
 
 ## 📞 Support
 
-- **Issues:** https://github.com/Samrat25/midnight_python_sdk/issues
-- **Discussions:** https://github.com/Samrat25/midnight_python_sdk/discussions
-- **Documentation:** https://github.com/Samrat25/midnight_python_sdk/tree/main/docs
+- **Issues:** https://github.com/Samrat25/midnight_sdkthon_sdk/issues
+- **Discussions:** https://github.com/Samrat25/midnight_sdkthon_sdk/discussions
+- **Documentation:** https://github.com/Samrat25/midnight_sdkthon_sdk/tree/main/docs
 
 ## 🏆 Achievement Unlocked
 
@@ -288,6 +288,6 @@ The Midnight Python SDK is now:
 
 ---
 
-**Repository:** https://github.com/Samrat25/midnight_python_sdk
+**Repository:** https://github.com/Samrat25/midnight_sdkthon_sdk
 
 **Status:** 🟢 Live and Ready!

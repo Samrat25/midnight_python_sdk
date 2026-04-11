@@ -23,9 +23,9 @@ Run: python examples/production_ai_inference.py
 import os
 import sys
 from pathlib import Path
-from midnight_py import MidnightClient
-from midnight_py.wallet import WalletClient
-from midnight_py.exceptions import ProofServerConnectionError
+from midnight_sdk import MidnightClient
+from midnight_sdk.wallet import WalletClient
+from midnight_sdk.exceptions import ProofServerConnectionError
 
 
 def main():

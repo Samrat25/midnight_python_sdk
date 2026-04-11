@@ -43,8 +43,8 @@ pip install -e .
 ```
 
 This installs:
-- `midnight-py` package
-- `midnight-py` CLI command
+- `midnight-sdk` package
+- `midnight-sdk` CLI command
 - All dependencies (httpx, typer, rich, sklearn, etc.)
 
 ### 3. Install Node.js Dependencies
@@ -59,10 +59,10 @@ This installs the Midnight wallet SDK for address derivation and key management.
 
 ```bash
 # Check CLI is installed
-midnight-py --help
+midnight-sdk --help
 
 # Check Python package
-python -c "from midnight_py import MidnightClient; print('OK')"
+python -c "from midnight_sdk import MidnightClient; print('OK')"
 ```
 
 ## Configuration
@@ -135,7 +135,7 @@ python start_services.py
 
 ```bash
 # Check all services
-midnight-py status
+midnight-sdk status
 
 # Or manually
 curl http://localhost:6300/health  # Proof server
@@ -148,7 +148,7 @@ curl http://localhost:8088/health  # Indexer
 ### Service Status
 
 ```bash
-midnight-py status
+midnight-sdk status
 ```
 
 Shows status of all Midnight services (node, indexer, prover).
@@ -158,7 +158,7 @@ Shows status of all Midnight services (node, indexer, prover).
 #### Train Model
 
 ```bash
-midnight-py ai train
+midnight-sdk ai train
 ```
 
 Trains the iris classification model.
@@ -166,7 +166,7 @@ Trains the iris classification model.
 #### Run Inference (No Transaction)
 
 ```bash
-midnight-py ai infer --features "5.1,3.5,1.4,0.2"
+midnight-sdk ai infer --features "5.1,3.5,1.4,0.2"
 ```
 
 Runs ZK inference without submitting a transaction.
@@ -174,7 +174,7 @@ Runs ZK inference without submitting a transaction.
 #### Run Inference with Transaction Signing
 
 ```bash
-midnight-py ai infer --features "5.1,3.5,1.4,0.2" --sign
+midnight-sdk ai infer --features "5.1,3.5,1.4,0.2" --sign
 ```
 
 Runs ZK inference and submits a signed transaction to the blockchain.
@@ -190,7 +190,7 @@ Runs ZK inference and submits a signed transaction to the blockchain.
 #### List All Transactions
 
 ```bash
-midnight-py tx list
+midnight-sdk tx list
 ```
 
 Shows all transactions grouped by status (pending, confirmed, rejected).
@@ -198,7 +198,7 @@ Shows all transactions grouped by status (pending, confirmed, rejected).
 #### Check Transaction Status
 
 ```bash
-midnight-py tx status <tx_hash>
+midnight-sdk tx status <tx_hash>
 ```
 
 Shows detailed information about a specific transaction.
@@ -206,7 +206,7 @@ Shows detailed information about a specific transaction.
 #### Approve Pending Transaction
 
 ```bash
-midnight-py tx approve <tx_hash>
+midnight-sdk tx approve <tx_hash>
 ```
 
 Manually confirms a pending transaction.
@@ -214,7 +214,7 @@ Manually confirms a pending transaction.
 #### Reject Pending Transaction
 
 ```bash
-midnight-py tx reject <tx_hash> "Reason for rejection"
+midnight-sdk tx reject <tx_hash> "Reason for rejection"
 ```
 
 Manually rejects a pending transaction with a reason.
@@ -224,7 +224,7 @@ Manually rejects a pending transaction with a reason.
 #### Deploy Contract
 
 ```bash
-midnight-py deploy contracts/hello_world.compact --wallet <address> --sign
+midnight-sdk deploy contracts/hello_world.compact --wallet <address> --sign
 ```
 
 Deploys a compiled contract with transaction signing.
@@ -232,7 +232,7 @@ Deploys a compiled contract with transaction signing.
 #### Call Contract Function
 
 ```bash
-midnight-py call <contract_address> <circuit_name> \
+midnight-sdk call <contract_address> <circuit_name> \
   --wallet <address> \
   --args '{"key": "value"}' \
   --sign
@@ -245,7 +245,7 @@ Calls a circuit function on a deployed contract.
 #### Check Balance
 
 ```bash
-midnight-py balance <wallet_address>
+midnight-sdk balance <wallet_address>
 ```
 
 Shows DUST and NIGHT token balances.
@@ -286,26 +286,26 @@ By default, transactions are automatically confirmed after 3 seconds. This simul
 
 1. **Submit transaction**
    ```bash
-   midnight-py ai infer --features "5.1,3.5,1.4,0.2" --sign
+   midnight-sdk ai infer --features "5.1,3.5,1.4,0.2" --sign
    ```
 
 2. **List pending transactions**
    ```bash
-   midnight-py tx list
+   midnight-sdk tx list
    ```
 
 3. **Review transaction**
    ```bash
-   midnight-py tx status <tx_hash>
+   midnight-sdk tx status <tx_hash>
    ```
 
 4. **Approve or reject**
    ```bash
    # Approve
-   midnight-py tx approve <tx_hash>
+   midnight-sdk tx approve <tx_hash>
    
    # Or reject
-   midnight-py tx reject <tx_hash> "Invalid proof"
+   midnight-sdk tx reject <tx_hash> "Invalid proof"
    ```
 
 5. **View in explorer**
@@ -326,22 +326,22 @@ In the explorer UI:
 
 ```bash
 # Train model
-midnight-py ai train
+midnight-sdk ai train
 
 # Run inference
-midnight-py ai infer --features "5.1,3.5,1.4,0.2"
+midnight-sdk ai infer --features "5.1,3.5,1.4,0.2"
 ```
 
 ### Example 2: AI Inference with Transaction
 
 ```bash
 # Run inference and submit transaction
-midnight-py ai infer --features "5.1,3.5,1.4,0.2" --sign
+midnight-sdk ai infer --features "5.1,3.5,1.4,0.2" --sign
 
 # Wait 4 seconds for auto-confirmation
 
 # Check status
-midnight-py tx list
+midnight-sdk tx list
 ```
 
 ### Example 3: Complete Workflow
@@ -365,25 +365,25 @@ This demonstrates:
 
 ```bash
 # Submit transaction
-midnight-py ai infer --features "5.1,3.5,1.4,0.2" --sign
+midnight-sdk ai infer --features "5.1,3.5,1.4,0.2" --sign
 
 # Get transaction hash from output
 TX_HASH="<transaction_hash>"
 
 # Check status (should be pending)
-midnight-py tx status $TX_HASH
+midnight-sdk tx status $TX_HASH
 
 # Manually approve
-midnight-py tx approve $TX_HASH
+midnight-sdk tx approve $TX_HASH
 
 # Verify confirmed
-midnight-py tx status $TX_HASH
+midnight-sdk tx status $TX_HASH
 ```
 
 ### Example 5: Using Python API
 
 ```python
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 from pathlib import Path
 
 # Initialize client
@@ -449,7 +449,7 @@ kill -9 <PID>
 **Solution**:
 ```bash
 # Manually approve
-midnight-py tx approve <tx_hash>
+midnight-sdk tx approve <tx_hash>
 
 # Or check node logs
 docker logs midnightsdk-midnight-node-1
@@ -475,7 +475,7 @@ cat mnemonic.txt
 **Solution**:
 1. Get wallet address: `node get_wallet_address.mjs`
 2. Fund at: https://faucet.midnight.network/
-3. Verify: `midnight-py balance <address>`
+3. Verify: `midnight-sdk balance <address>`
 
 ### Contract Compilation Errors
 

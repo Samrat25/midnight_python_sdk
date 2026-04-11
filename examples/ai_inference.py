@@ -8,8 +8,8 @@ Private inputs never leave this machine - only proofs are generated.
 Run: python examples/ai_inference.py
 """
 
-from midnight_py import MidnightClient
-from midnight_py.exceptions import ModelNotTrainedError, ProofServerConnectionError
+from midnight_sdk import MidnightClient
+from midnight_sdk.exceptions import ModelNotTrainedError, ProofServerConnectionError
 from pathlib import Path
 import sys
 

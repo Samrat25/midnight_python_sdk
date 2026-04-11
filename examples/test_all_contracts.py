@@ -6,7 +6,7 @@ Tests deployment and execution of all contracts with transaction signing
 
 import time
 from pathlib import Path
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 
 
 def print_section(title):

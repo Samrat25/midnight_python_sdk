@@ -3,8 +3,8 @@
 ## Overview
 
 ```
-midnight-python-sdk/
-├── 📦 midnight_py/              # Core SDK package
+midnight-sdkthon-sdk/
+├── 📦 midnight_sdk/              # Core SDK package
 ├── 📜 contracts/                # Compact smart contracts
 ├── 🐳 docker/                   # Docker services
 ├── 💡 examples/                 # Example scripts
@@ -16,10 +16,10 @@ midnight-python-sdk/
 
 ## Detailed Structure
 
-### Core SDK (`midnight_py/`)
+### Core SDK (`midnight_sdk/`)
 
 ```
-midnight_py/
+midnight_sdk/
 ├── __init__.py              # Package initialization
 ├── client.py                # Main MidnightClient
 ├── wallet.py                # Wallet operations & signing
@@ -238,7 +238,7 @@ Root Directory/
 
 ### Must Keep
 
-- ✅ `midnight_py/` - Core SDK
+- ✅ `midnight_sdk/` - Core SDK
 - ✅ `contracts/` - Smart contracts
 - ✅ `docker/` - Services
 - ✅ `examples/` - Examples

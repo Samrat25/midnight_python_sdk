@@ -11,9 +11,9 @@ This example shows the COMPLETE workflow:
 Run: python examples/complete_workflow.py
 """
 
-from midnight_py import MidnightClient
-from midnight_py.wallet import WalletClient
-from midnight_py.codegen import compile_compact, compact_to_python
+from midnight_sdk import MidnightClient
+from midnight_sdk.wallet import WalletClient
+from midnight_sdk.codegen import compile_compact, compact_to_python
 from rich.console import Console
 from rich import print as rprint
 from pathlib import Path
@@ -148,8 +148,8 @@ This will output a contract address like: [cyan]0x1234...[/cyan]
     rprint("""Once deployed, use Python to interact:
 
 ```python
-from midnight_py import MidnightClient
-from midnight_py.codegen import compact_to_python
+from midnight_sdk import MidnightClient
+from midnight_sdk.codegen import compact_to_python
 
 # Connect
 client = MidnightClient(network="local")

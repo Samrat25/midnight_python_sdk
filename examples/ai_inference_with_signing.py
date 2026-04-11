@@ -11,8 +11,8 @@ Demonstrates:
 Run: python examples/ai_inference_with_signing.py
 """
 
-from midnight_py import MidnightClient
-from midnight_py.exceptions import ModelNotTrainedError, ProofServerConnectionError
+from midnight_sdk import MidnightClient
+from midnight_sdk.exceptions import ModelNotTrainedError, ProofServerConnectionError
 from pathlib import Path
 import sys
 
@@ -114,7 +114,7 @@ def main():
         print(f"[TX]       Status:               signed & submitted")
         
         # Show explorer link
-        from midnight_py.wallet import get_explorer_url
+        from midnight_sdk.wallet import get_explorer_url
         network_id = 'undeployed'
         explorer_url = get_explorer_url(result.transaction_hash, network_id)
         print(f"[TX]       Explorer:             {explorer_url}")

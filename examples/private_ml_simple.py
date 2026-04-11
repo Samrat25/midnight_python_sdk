@@ -15,7 +15,7 @@ Run: python examples/private_ml_simple.py
 
 import json
 import hashlib
-from midnight_py import MidnightClient
+from midnight_sdk import MidnightClient
 from rich.console import Console
 from rich import print as rprint
 import httpx

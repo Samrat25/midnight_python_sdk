@@ -5,9 +5,9 @@ Demonstrates posting messages with ZK proofs and transaction signing
 Run: python examples/bulletin_board_with_signing.py
 """
 
-from midnight_py import MidnightClient
-from midnight_py.exceptions import ProofServerConnectionError
-from midnight_py.codegen import compact_to_python
+from midnight_sdk import MidnightClient
+from midnight_sdk.exceptions import ProofServerConnectionError
+from midnight_sdk.codegen import compact_to_python
 from pathlib import Path
 import sys
 
@@ -119,7 +119,7 @@ def main():
         print(f"[TX]       Status:                {result.status}")
         
         # Show explorer link
-        from midnight_py.wallet import get_explorer_url
+        from midnight_sdk.wallet import get_explorer_url
         network_id = 'undeployed'
         explorer_url = get_explorer_url(result.tx_hash, network_id)
         print(f"[TX]       Explorer:              {explorer_url}")
