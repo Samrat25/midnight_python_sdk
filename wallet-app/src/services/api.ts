@@ -67,6 +67,76 @@ export const walletAPI = {
     return response.data;
   },
 
+  // Get all addresses (shielded, unshielded, dust)
+  getAllAddresses: async (mnemonic: string, networkId: string): Promise<{
+    network: string;
+    addresses: {
+      unshielded: string;
+      shielded: string;
+      dust: string;
+    };
+  }> => {
+    const response = await api.post('/wallet/get-all-addresses', { mnemonic, networkId });
+    return response.data;
+  },
+
+  // Get quick balance (fast, no wallet sync)
+  getQuickBalance: async (
+    mnemonic: string,
+    networkId: string,
+    indexerUrl?: string
+  ): Promise<{
+    addresses: any;
+    network: string;
+    balances: {
+      dust: string;
+      night_unshielded: string;
+      night_shielded: string;
+    };
+    note?: string;
+  }> => {
+    const response = await api.post('/wallet/get-quick-balance', {
+      mnemonic,
+      networkId,
+      indexerUrl,
+    });
+    return response.data;
+  },
+
+  // Get full balance (complete, with wallet sync)
+  getFullBalance: async (
+    mnemonic: string,
+    networkId: string,
+    indexerUrl?: string,
+    indexerWs?: string,
+    nodeUrl?: string,
+    proofUrl?: string
+  ): Promise<{
+    address: string;
+    network: string;
+    balances: {
+      dust: string;
+      night_unshielded: string;
+      night_shielded: string;
+    };
+    coins?: {
+      shielded: number;
+      unshielded: number;
+      dust: number;
+    };
+    synced?: boolean;
+  }> => {
+    const response = await api.post('/wallet/get-full-balance', {
+      mnemonic,
+      networkId,
+      indexerUrl,
+      indexerWs,
+      nodeUrl,
+      proofUrl,
+    });
+    return response.data;
+  },
+
   // Sign transaction
   signTransaction: async (tx: any, privateKey: string): Promise<any> => {
     const response = await api.post('/wallet/sign-transaction', { tx, privateKey });

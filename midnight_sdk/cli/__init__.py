@@ -171,6 +171,68 @@ def status(profile: str = typer.Option(None, "--profile", "-p", help="Network pr
 
 
 @app.command()
+def wallet_ui():
+    """Open the Midnight Wallet web interface."""
+    import webbrowser
+    import subprocess
+    import time
+    from pathlib import Path
+    
+    wallet_path = Path(__file__).parent.parent.parent / "wallet-app"
+    wallet_html = wallet_path / "index.html"
+    api_script = wallet_path / "api" / "server.py"
+    
+    if not wallet_html.exists():
+        console.print("[red]Wallet UI not found![/red]")
+        console.print(f"Expected location: {wallet_html}")
+        raise typer.Exit(1)
+    
+    console.print("[cyan]🌙 Opening Midnight Wallet...[/cyan]\n")
+    
+    # Check if backend is already running
+    try:
+        import requests
+        response = requests.get("http://localhost:8000/system/info", timeout=2)
+        if response.ok:
+            console.print("[green]✓[/green] Backend API is already running")
+        else:
+            raise Exception("Backend not responding")
+    except:
+        # Start backend
+        console.print("[yellow]Starting backend API...[/yellow]")
+        try:
+            if api_script.exists():
+                subprocess.Popen(
+                    ["python", str(api_script)],
+                    cwd=str(wallet_path),
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL
+                )
+                time.sleep(2)
+                console.print("[green]✓[/green] Backend API started")
+            else:
+                console.print("[yellow]⚠[/yellow] Backend API script not found, wallet may not work properly")
+        except Exception as e:
+            console.print(f"[yellow]⚠[/yellow] Could not start backend: {e}")
+    
+    # Open wallet in browser
+    wallet_url = wallet_html.as_uri()
+    console.print(f"\n[cyan]Opening:[/cyan] {wallet_url}")
+    console.print(f"[cyan]Backend:[/cyan] http://localhost:8000\n")
+    
+    webbrowser.open(wallet_url)
+    
+    console.print("[green]✓ Wallet opened in your browser![/green]\n")
+    console.print("[dim]Features:[/dim]")
+    console.print("  • Import/Create wallet")
+    console.print("  • Unshielded transfers (public)")
+    console.print("  • Shielded transfers (private)")
+    console.print("  • DUST generation")
+    console.print("  • Transaction history")
+    console.print("  • Airdrop function\n")
+
+
+@app.command()
 def balance(
     address: str = typer.Argument(None, help="Address to check (default: active wallet)"),
     profile: str = typer.Option(None, "--profile", "-p", help="Network profile"),

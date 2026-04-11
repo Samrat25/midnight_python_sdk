@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midnight Wallet</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="gradient1" x1="0" y1="0" x2="32" y2="32">
+                                <stop offset="0%" stop-color="#8B5CF6"/>
+                                <stop offset="100%" stop-color="#6366F1"/>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="16" cy="16" r="14" fill="url(#gradient1)"/>
+                        <path d="M16 6C16 6 12 8 10 12C8 16 8 20 10 24C12 28 16 30 16 30C16 30 20 28 22 24C24 20 24 16 22 12C20 8 16 6 16 6Z" fill="white" opacity="0.9"/>
+                        <circle cx="16" cy="16" r="4" fill="url(#gradient1)"/>
+                    </svg>
+                    <span>Midnight</span>
+                </div>
+                <div class="network-indicator">
+                    <span class="status-dot"></span>
+                    <span class="network-name">Local</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-item active" data-view="overview" onclick="switchView('overview')">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 3L2 8v9h6v-5h4v5h6V8l-8-5z"/>
+                    </svg>
+                    <span>Overview</span>
+                </button>
+                <button class="nav-item" data-view="send" onclick="switchView('send')">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 10l16-8-8 16-2-8-6-0z"/>
+                    </svg>
+                    <span>Send</span>
+                </button>
+                <button class="nav-item" data-view="receive" onclick="switchView('receive')">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 2v12m0 0l-4-4m4 4l4-4M4 18h12"/>
+                    </svg>
+                    <span>Receive</span>
+                </button>
+                <button class="nav-item" data-view="activity" onclick="switchView('activity')">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M3 4h14M3 10h14M3 16h14"/>
+                    </svg>
+                    <span>Activity</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="settings-btn" onclick="showSettings()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 12a4 4 0 110-8 4 4 0 010 8z"/>
+                    </svg>
+                    <span>Settings</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Overview View -->
+            <div id="overview-view" class="view active">
+                <div class="view-header">
+                    <h1>Overview</h1>
+                    <button class="icon-btn" onclick="refreshBalance()" title="Refresh">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M4 10a6 6 0 1112 0 6 6 0 01-12 0zm6-8a8 8 0 100 16 8 8 0 000-16z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div id="wallet-empty" class="empty-wallet">
+                    <div class="empty-icon">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="40" cy="40" r="38" stroke="url(#emptyGradient)" stroke-width="2" opacity="0.3"/>
+                            <path d="M40 20v40M20 40h40" stroke="url(#emptyGradient)" stroke-width="3" stroke-linecap="round"/>
+                            <circle cx="40" cy="40" r="8" fill="url(#emptyGradient)" opacity="0.5"/>
+                            <defs>
+                                <linearGradient id="emptyGradient" x1="0" y1="0" x2="80" y2="80">
+                                    <stop offset="0%" stop-color="#8B5CF6"/>
+                                    <stop offset="100%" stop-color="#6366F1"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h2>No Wallet Connected</h2>
+                    <p>Import your existing wallet or create a new one to get started</p>
+                    <div class="empty-actions">
+                        <button class="btn btn-primary" onclick="showImportModal()">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M8 2v8m0 0L5 7m3 3l3-3M3 14h10"/>
+                            </svg>
+                            Import Wallet
+                        </button>
+                        <button class="btn btn-secondary" onclick="showCreateModal()">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M8 3v10M3 8h10"/>
+                            </svg>
+                            Create New
+                        </button>
+                    </div>
+                </div>
+
+                <div id="wallet-loaded" class="hidden">
+                    <!-- Total Balance Card -->
+                    <div class="balance-hero">
+                        <div class="balance-label">Total Balance</div>
+                        <div class="balance-value">
+                            <span id="totalBalance">0.00</span>
+                            <span class="balance-currency">NIGHT</span>
+                        </div>
+                        <div class="balance-usd">≈ $0.00 USD</div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions-grid">
+                        <button class="action-card" onclick="switchView('send')">
+                            <div class="action-icon send">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M3 12l18-9-9 18-3-9-6 0z"/>
+                                </svg>
+                            </div>
+                            <span>Send</span>
+                        </button>
+                        <button class="action-card" onclick="switchView('receive')">
+                            <div class="action-icon receive">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 3v14m0 0l-5-5m5 5l5-5M4 21h16"/>
+                                </svg>
+                            </div>
+                            <span>Receive</span>
+                        </button>
+                        <button class="action-card" onclick="generateDustModal()">
+                            <div class="action-icon dust">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
+                                </svg>
+                            </div>
+                            <span>DUST</span>
+                        </button>
+                        <button class="action-card" onclick="airdropFunds()">
+                            <div class="action-icon airdrop">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/>
+                                </svg>
+                            </div>
+                            <span>Airdrop</span>
+                        </button>
+                    </div>
+
+                    <!-- Assets List -->
+                    <div class="assets-section">
+                        <h3>Assets</h3>
+                        <div class="asset-list">
+                            <div class="asset-item">
+                                <div class="asset-icon night">
+                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor">
+                                        <circle cx="16" cy="16" r="14"/>
+                                    </svg>
+                                </div>
+                                <div class="asset-info">
+                                    <div class="asset-name">NIGHT</div>
+                                    <div class="asset-type">Transferable</div>
+                                </div>
+                                <div class="asset-balance">
+                                    <div class="asset-amount" id="nightBalance">0.00</div>
+                                    <div class="asset-usd">$0.00</div>
+                                </div>
+                            </div>
+                            <div class="asset-item">
+                                <div class="asset-icon dust">
+                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor">
+                                        <path d="M16 4l-12 8v12l12 4 12-4V12L16 4z"/>
+                                    </svg>
+                                </div>
+                                <div class="asset-info">
+                                    <div class="asset-name">DUST</div>
+                                    <div class="asset-type">Gas Token</div>
+                                </div>
+                                <div class="asset-balance">
+                                    <div class="asset-amount" id="dustBalance">0.00</div>
+                                    <div class="asset-usd">Non-transferable</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Address Card -->
+                    <div class="address-section">
+                        <div class="address-header">
+                            <span>Your Address</span>
+                            <button class="copy-btn" onclick="copyAddress()">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M4 2h8v2H4V2zm0 4h8v2H4V6zm0 4h5v2H4v-2z"/>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                        <div class="address-value" id="walletAddress"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Send View -->
+            <div id="send-view" class="view">
+                <div class="view-header">
+                    <button class="back-btn" onclick="switchView('overview')">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 4l-6 6 6 6M4 10h12"/>
+                        </svg>
+                    </button>
+                    <h1>Send</h1>
+                </div>
+
+                <div class="send-container">
+                    <!-- Transfer Type Selection -->
+                    <div class="transfer-type-selector">
+                        <button class="type-btn active" data-type="unshielded" onclick="selectTransferType('unshielded')">
+                            <div class="type-icon">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <circle cx="10" cy="10" r="8"/>
+                                </svg>
+                            </div>
+                            <div class="type-info">
+                                <div class="type-name">Unshielded</div>
+                                <div class="type-desc">Public transfer</div>
+                            </div>
+                        </button>
+                        <button class="type-btn" data-type="shielded" onclick="selectTransferType('shielded')">
+                            <div class="type-icon">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10 2L3 6v6c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-4z"/>
+                                </svg>
+                            </div>
+                            <div class="type-info">
+                                <div class="type-name">Shielded</div>
+                                <div class="type-desc">Private transfer</div>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Send Form -->
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label>Recipient Address</label>
+                            <input type="text" id="recipientAddress" placeholder="mn_addr_..." class="input-field">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <div class="amount-input-wrapper">
+                                <input type="number" id="transferAmount" placeholder="0.0" step="0.000001" class="input-field amount-input">
+                                <div class="amount-currency">NIGHT</div>
+                            </div>
+                            <div class="quick-amounts">
+                                <button onclick="setAmount(0.5)">0.5</button>
+                                <button onclick="setAmount(1)">1</button>
+                                <button onclick="setAmount(5)">5</button>
+                                <button onclick="setAmount(10)">10</button>
+                                <button onclick="setMaxAmount()">MAX</button>
+                            </div>
+                        </div>
+
+                        <!-- Transaction Summary -->
+                        <div class="tx-summary">
+                            <div class="summary-row">
+                                <span>Amount</span>
+                                <span id="summaryAmount">0.00 NIGHT</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Network Fee</span>
+                                <span>~0.001 DUST</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total</span>
+                                <span id="summaryTotal">0.00 NIGHT</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary btn-large" onclick="sendTransfer()" id="sendBtn">
+                            Send Transaction
+                        </button>
+
+                        <div id="sendMessage"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Receive View -->
+            <div id="receive-view" class="view">
+                <div class="view-header">
+                    <button class="back-btn" onclick="switchView('overview')">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 4l-6 6 6 6M4 10h12"/>
+                        </svg>
+                    </button>
+                    <h1>Receive</h1>
+                </div>
+
+                <div class="receive-container">
+                    <div class="qr-section">
+                        <div class="qr-code" id="qrCode">
+                            <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="200" height="200" fill="#1a1a2e" rx="16"/>
+                                <!-- QR Code Pattern -->
+                                <g fill="#6366f1">
+                                    <!-- Corner squares -->
+                                    <rect x="20" y="20" width="50" height="50" rx="4"/>
+                                    <rect x="130" y="20" width="50" height="50" rx="4"/>
+                                    <rect x="20" y="130" width="50" height="50" rx="4"/>
+                                    
+                                    <!-- Inner corner squares -->
+                                    <rect x="30" y="30" width="30" height="30" rx="2" fill="#1a1a2e"/>
+                                    <rect x="140" y="30" width="30" height="30" rx="2" fill="#1a1a2e"/>
+                                    <rect x="30" y="140" width="30" height="30" rx="2" fill="#1a1a2e"/>
+                                    
+                                    <!-- Center pattern -->
+                                    <circle cx="100" cy="100" r="25" fill="#8b5cf6"/>
+                                    <circle cx="100" cy="100" r="15" fill="#1a1a2e"/>
+                                    <circle cx="100" cy="100" r="8" fill="#6366f1"/>
+                                    
+                                    <!-- Random QR pattern blocks -->
+                                    <rect x="85" y="25" width="8" height="8" rx="1"/>
+                                    <rect x="95" y="25" width="8" height="8" rx="1"/>
+                                    <rect x="105" y="25" width="8" height="8" rx="1"/>
+                                    <rect x="85" y="35" width="8" height="8" rx="1"/>
+                                    <rect x="105" y="35" width="8" height="8" rx="1"/>
+                                    
+                                    <rect x="25" y="85" width="8" height="8" rx="1"/>
+                                    <rect x="25" y="95" width="8" height="8" rx="1"/>
+                                    <rect x="25" y="105" width="8" height="8" rx="1"/>
+                                    <rect x="35" y="85" width="8" height="8" rx="1"/>
+                                    <rect x="35" y="105" width="8" height="8" rx="1"/>
+                                    
+                                    <rect x="167" y="85" width="8" height="8" rx="1"/>
+                                    <rect x="167" y="95" width="8" height="8" rx="1"/>
+                                    <rect x="167" y="105" width="8" height="8" rx="1"/>
+                                    <rect x="157" y="85" width="8" height="8" rx="1"/>
+                                    <rect x="157" y="105" width="8" height="8" rx="1"/>
+                                    
+                                    <rect x="85" y="167" width="8" height="8" rx="1"/>
+                                    <rect x="95" y="167" width="8" height="8" rx="1"/>
+                                    <rect x="105" y="167" width="8" height="8" rx="1"/>
+                                    <rect x="85" y="157" width="8" height="8" rx="1"/>
+                                    <rect x="105" y="157" width="8" height="8" rx="1"/>
+                                    
+                                    <!-- Additional pattern blocks -->
+                                    <rect x="130" y="85" width="8" height="8" rx="1"/>
+                                    <rect x="140" y="85" width="8" height="8" rx="1"/>
+                                    <rect x="130" y="95" width="8" height="8" rx="1"/>
+                                    <rect x="140" y="105" width="8" height="8" rx="1"/>
+                                    
+                                    <rect x="85" y="130" width="8" height="8" rx="1"/>
+                                    <rect x="95" y="130" width="8" height="8" rx="1"/>
+                                    <rect x="85" y="140" width="8" height="8" rx="1"/>
+                                    <rect x="105" y="140" width="8" height="8" rx="1"/>
+                                    
+                                    <rect x="130" y="130" width="8" height="8" rx="1"/>
+                                    <rect x="140" y="130" width="8" height="8" rx="1"/>
+                                    <rect x="130" y="140" width="8" height="8" rx="1"/>
+                                    <rect x="140" y="140" width="8" height="8" rx="1"/>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="receive-info">
+                        <label>Your Address</label>
+                        <div class="address-display" id="receiveAddress">Connect wallet first</div>
+                        <button class="btn btn-secondary" onclick="copyAddress()">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M4 2h8v2H4V2zm0 4h8v2H4V6zm0 4h5v2H4v-2z"/>
+                            </svg>
+                            Copy Address
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity View -->
+            <div id="activity-view" class="view">
+                <div class="view-header">
+                    <h1>Activity</h1>
+                    <button class="icon-btn" onclick="loadTransactions()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M4 10a6 6 0 1112 0 6 6 0 01-12 0z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="activity-list" id="activityList">
+                    <div class="empty-state">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="40" cy="40" r="38" stroke="url(#activityGradient)" stroke-width="2" opacity="0.2"/>
+                            <path d="M25 30h30M25 40h30M25 50h20" stroke="url(#activityGradient)" stroke-width="2" stroke-linecap="round"/>
+                            <defs>
+                                <linearGradient id="activityGradient" x1="0" y1="0" x2="80" y2="80">
+                                    <stop offset="0%" stop-color="#8B5CF6"/>
+                                    <stop offset="100%" stop-color="#6366F1"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <h3>No Activity Yet</h3>
+                        <p>Your transaction history will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Import Modal -->
+    <div id="importModal" class="modal">
+        <div class="modal-overlay" onclick="closeModal('importModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Import Wallet</h2>
+                <button class="modal-close" onclick="closeModal('importModal')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 6l12 12M6 18L18 6"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Recovery Phrase (24 words)</label>
+                    <textarea id="mnemonicInput" placeholder="Enter your 24-word recovery phrase..." class="textarea-field"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('importModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="importWallet()">Import</button>
+            </div>
+            <div id="importMessage"></div>
+        </div>
+    </div>
+
+    <!-- Create Modal -->
+    <div id="createModal" class="modal">
+        <div class="modal-overlay" onclick="closeModal('createModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Wallet</h2>
+                <button class="modal-close" onclick="closeModal('createModal')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 6l12 12M6 18L18 6"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="warning-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L2 20h20L12 2zm0 6v6m0 2v2"/>
+                    </svg>
+                    <p>Save your recovery phrase securely. You'll need it to restore your wallet.</p>
+                </div>
+                <div id="newMnemonicDisplay" class="hidden">
+                    <label>Your Recovery Phrase</label>
+                    <div class="mnemonic-display" id="newMnemonicText"></div>
+                    <button class="btn btn-secondary" onclick="copyMnemonic()">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M4 2h8v2H4V2z"/>
+                        </svg>
+                        Copy Phrase
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('createModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="createWallet()" id="createBtn">Generate</button>
+            </div>
+            <div id="createMessage"></div>
+        </div>
+    </div>
+
+    <script src="wallet.js"></script>
+</body>
+</html>
