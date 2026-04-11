@@ -171,6 +171,65 @@ def status(profile: str = typer.Option(None, "--profile", "-p", help="Network pr
 
 
 @app.command()
+def airdrop(
+    address: str = typer.Argument(..., help="Address to airdrop to"),
+    amount: float = typer.Option(10.0, "--amount", "-a", help="Amount of NIGHT to airdrop"),
+):
+    """Airdrop NIGHT and DUST tokens to an address (local network only)."""
+    from midnight_sdk.wallet import WalletClient
+    from midnight_sdk.config import ConfigManager
+    import requests
+    
+    config_mgr = ConfigManager()
+    config_mgr.load()
+    profile_obj = config_mgr.get_profile(None)
+    
+    if profile_obj.network_id not in ["undeployed", "local"]:
+        console.print("[red]Airdrop only works on local network[/red]")
+        raise typer.Exit(1)
+    
+    console.print(f"[cyan]🎁 Airdropping {amount} NIGHT to:[/cyan]")
+    console.print(f"[yellow]{address}[/yellow]\n")
+    
+    try:
+        # Get current balance
+        wallet_client = WalletClient(profile_obj.node_url)
+        current = wallet_client.get_balance(address, profile_obj.network_id)
+        
+        console.print(f"[dim]Current Balance:[/dim]")
+        console.print(f"  NIGHT: {current.night / 1_000_000:.6f}")
+        console.print(f"  DUST: {current.dust / 1_000_000:.6f}\n")
+        
+        # Airdrop
+        amount_units = int(amount * 1_000_000)
+        response = requests.post(
+            "http://127.0.0.1:9944/balance",
+            json={
+                "address": address,
+                "night": current.night + amount_units,
+                "dust": current.dust + amount_units
+            },
+            timeout=5
+        )
+        
+        if response.ok:
+            console.print(f"[green]✅ Airdrop successful![/green]\n")
+            
+            # Check new balance
+            new = wallet_client.get_balance(address, profile_obj.network_id)
+            console.print(f"[bold]New Balance:[/bold]")
+            console.print(f"  NIGHT: [green]{new.night / 1_000_000:.6f}[/green] (+{amount:.6f})")
+            console.print(f"  DUST: [green]{new.dust / 1_000_000:.6f}[/green] (+{amount:.6f})")
+            console.print(f"\n[dim]💡 Refresh your wallet to see the updated balance[/dim]")
+        else:
+            console.print(f"[red]❌ Airdrop failed: {response.text}[/red]")
+            raise typer.Exit(1)
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(1)
+
+
+@app.command()
 def wallet_ui():
     """Open the Midnight Wallet web interface."""
     import webbrowser

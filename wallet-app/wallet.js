@@ -20,6 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (amountInput) {
         amountInput.addEventListener('input', updateTransferSummary);
     }
+    
+    // Auto-refresh balance every 10 seconds if wallet is loaded
+    setInterval(() => {
+        if (currentWallet.address) {
+            refreshBalance();
+        }
+    }, 10000);
 });
 
 // View Management
@@ -192,6 +199,35 @@ async function refreshBalance() {
         if (!response.ok) throw new Error('Failed to get balance');
         
         const data = await response.json();
+        
+        // Check for balance changes (airdrop detection)
+        if (currentWallet.balance.night > 0 || currentWallet.balance.dust > 0) {
+            const nightDiff = data.night - currentWallet.balance.night;
+            const dustDiff = data.dust - currentWallet.balance.dust;
+            
+            // If balance increased, log as airdrop/receive
+            if (nightDiff > 0) {
+                addTransaction({
+                    type: 'receive',
+                    address: 'External Airdrop',
+                    amount: nightDiff,
+                    token: 'NIGHT',
+                    timestamp: Date.now()
+                });
+            }
+            
+            if (dustDiff > 0 && nightDiff === 0) {
+                // DUST only increase (not from NIGHT conversion)
+                addTransaction({
+                    type: 'receive',
+                    address: 'External Airdrop',
+                    amount: dustDiff,
+                    token: 'DUST',
+                    timestamp: Date.now()
+                });
+            }
+        }
+        
         currentWallet.balance = data;
         
         const nightFormatted = formatBalance(data.night);
@@ -212,6 +248,9 @@ async function airdropFunds() {
     }
     
     try {
+        // Get current balance first
+        const currentBalance = { ...currentWallet.balance };
+        
         const response = await fetch('http://127.0.0.1:9944/balance', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -224,17 +263,27 @@ async function airdropFunds() {
         
         if (!response.ok) throw new Error('Failed to add funds');
         
+        // Log the airdrop transaction
         addTransaction({
             type: 'receive',
-            address: 'Airdrop',
+            address: 'Wallet Airdrop',
             amount: 10_000_000,
             token: 'NIGHT',
             timestamp: Date.now()
         });
         
+        // Also log DUST
+        addTransaction({
+            type: 'receive',
+            address: 'Wallet Airdrop',
+            amount: 10_000_000,
+            token: 'DUST',
+            timestamp: Date.now()
+        });
+        
         setTimeout(() => refreshBalance(), 1000);
         
-        alert('✅ Added 10 NIGHT to your wallet!');
+        alert('✅ Added 10 NIGHT and 10 DUST to your wallet!');
     } catch (error) {
         alert(`Error: ${error.message}`);
     }
@@ -438,6 +487,18 @@ function loadTransactions() {
     if (saved) {
         transactions = JSON.parse(saved);
     }
+}
+
+async function syncTransactions() {
+    if (!currentWallet.address) {
+        alert('Please import a wallet first');
+        return;
+    }
+    
+    // Force a balance refresh to detect any changes
+    await refreshBalance();
+    displayTransactions();
+    alert('✅ Transactions synced!');
 }
 
 function displayTransactions() {

@@ -396,11 +396,18 @@
             <div id="activity-view" class="view">
                 <div class="view-header">
                     <h1>Activity</h1>
-                    <button class="icon-btn" onclick="loadTransactions()">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M4 10a6 6 0 1112 0 6 6 0 01-12 0z"/>
-                        </svg>
-                    </button>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="icon-btn" onclick="syncTransactions()" title="Sync Transactions">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M4 10a6 6 0 1112 0 6 6 0 01-12 0zm6-8a8 8 0 100 16 8 8 0 000-16z"/>
+                            </svg>
+                        </button>
+                        <button class="icon-btn" onclick="loadTransactions()">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M4 10a6 6 0 1112 0 6 6 0 01-12 0z"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="activity-list" id="activityList">
