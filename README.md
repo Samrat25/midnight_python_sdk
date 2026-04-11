@@ -39,7 +39,7 @@ A comprehensive Python SDK for building zero-knowledge applications on the Midni
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/midnight-sdkthon-sdk.git
+git clone https://github.com/Samrat25/midnight_python_sdkthon-sdk.git
 cd midnight-sdkthon-sdk
 
 # Install Python package
@@ -308,7 +308,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 
 ```bash
 # Fork and clone
-git clone https://github.com/yourusername/midnight-sdkthon-sdk.git
+git clone https://github.com/Samrat25/midnight_python_sdkthon-sdk.git
 cd midnight-sdkthon-sdk
 
 # Create virtual environment
@@ -334,8 +334,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/midnight-sdkthon-sdk/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/midnight-sdkthon-sdk/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Samrat25/midnight_python_sdkthon-sdk/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Samrat25/midnight_python_sdkthon-sdk/discussions)
 - **Documentation**: [docs/](docs/)
 
 ## 🗺️ Roadmap
