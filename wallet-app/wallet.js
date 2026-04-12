@@ -525,14 +525,28 @@ function displayTransactions() {
             : '<path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>';
         
         const iconClass = tx.type;
-        const typeLabel = tx.type === 'send' 
-            ? `Sent ${tx.transferType || 'unshielded'}` 
-            : tx.type === 'receive' 
-            ? 'Received' 
-            : 'Generated DUST';
+        
+        // Enhanced type label with transfer type badge
+        let typeLabel = '';
+        if (tx.type === 'send') {
+            const transferBadge = tx.transferType === 'shielded' 
+                ? '<span style="background: rgba(139, 92, 246, 0.2); color: #a78bfa; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 6px;">🔒 Shielded</span>'
+                : '<span style="background: rgba(59, 130, 246, 0.2); color: #60a5fa; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 6px;">👁 Public</span>';
+            typeLabel = `Sent ${transferBadge}`;
+        } else if (tx.type === 'receive') {
+            typeLabel = 'Received';
+        } else {
+            typeLabel = 'Generated DUST';
+        }
+        
         const amountClass = tx.type === 'send' ? 'negative' : 'positive';
         const amountSign = tx.type === 'send' ? '-' : '+';
         const time = formatTime(tx.timestamp);
+        
+        // Format address display
+        const addressDisplay = tx.address.length > 40 
+            ? tx.address.substring(0, 20) + '...' + tx.address.substring(tx.address.length - 10)
+            : tx.address;
         
         return `
             <div class="activity-item">
@@ -543,7 +557,7 @@ function displayTransactions() {
                 </div>
                 <div class="activity-details">
                     <div class="activity-type">${typeLabel}</div>
-                    <div class="activity-address">${tx.address.substring(0, 30)}...</div>
+                    <div class="activity-address">${addressDisplay}</div>
                 </div>
                 <div class="activity-amount">
                     <div class="activity-value ${amountClass}">${amountSign}${formatBalance(tx.amount)} ${tx.token}</div>

@@ -1,0 +1,9 @@
+{
+  "proof": "zk_snark_proof_95630d42a460fedc883391d8a7cbf1774d97a5bbd1d721c0b9805a905ad769ba",
+  "publicOutputs": {
+    "verified": true,
+    "timestamp": "2026-04-12T03:31:09.406525",
+    "circuitId": "counter:increment"
+  },
+  "circuitId": "counter:increment"
+}

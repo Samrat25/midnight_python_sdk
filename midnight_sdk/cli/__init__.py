@@ -453,6 +453,36 @@ def balance(
             raise typer.Exit(1)
 
 
+@app.command()
+def test_proof():
+    """Test proof server with compiled circuits."""
+    import subprocess
+    import sys
+    from pathlib import Path
+    
+    test_script = Path(__file__).parent.parent.parent / "test_proof_server.py"
+    
+    if not test_script.exists():
+        console.print("[red]Test script not found![/red]")
+        console.print(f"Expected location: {test_script}")
+        raise typer.Exit(1)
+    
+    console.print("[cyan]Running proof server tests...[/cyan]\n")
+    
+    try:
+        result = subprocess.run(
+            [sys.executable, str(test_script)],
+            cwd=str(test_script.parent)
+        )
+        sys.exit(result.returncode)
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Test interrupted by user[/yellow]")
+        raise typer.Exit(1)
+    except Exception as e:
+        console.print(f"[red]Error running tests: {e}[/red]")
+        raise typer.Exit(1)
+
+
 def cli_main():
     """Entry point for the CLI."""
     app()
