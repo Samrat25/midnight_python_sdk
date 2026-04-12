@@ -1,7 +1,7 @@
 # 🌙 Midnight Python SDK
 
 A comprehensive Python SDK for building zero-knowledge applications on the Midnight blockchain. Features auto-generated Python bindings from Compact contracts, real transaction signing, and a complete local development environment.
-
+official deployed SDK : https://pypi.org/project/midnight-sdk/0.1.1/
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/docker-required-blue.svg)](https://www.docker.com/)
